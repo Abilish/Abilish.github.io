@@ -4491,7 +4491,7 @@ input, select, textarea {
 		-webkit-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		display: none;
+		display: run-in;
 		position: fixed;
 		top: 0.75rem;
 		right: 0.75rem;
@@ -4506,27 +4506,6 @@ input, select, textarea {
 		z-index: 10001;
 	}
 
-	#articlePanelToggle {
-		text-decoration: none;
-		-moz-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		-webkit-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		display: run-in;
-		position: relative;
-		top: 0.75rem;
-		right: 0.75rem;
-		border: 0;
-		color: #ffffff;
-		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-size: 0.9rem;
-		font-weight: 900;
-		letter-spacing: 0.075em;
-		padding: 0.375rem 1.25rem;
-		text-transform: uppercase;
-		z-index: 10001;
-	}
-
 		#navPanelToggle:before {
 			-moz-osx-font-smoothing: grayscale;
 			-webkit-font-smoothing: antialiased;
@@ -4540,25 +4519,7 @@ input, select, textarea {
 			font-weight: 900;
 		}
 
-		#articlePanelToggle:before {
-			-moz-osx-font-smoothing: grayscale;
-			-webkit-font-smoothing: antialiased;
-			display: inline-block;
-			font-style: normal;
-			font-variant: normal;
-			text-rendering: auto;
-			line-height: 1;
-			text-transform: none !important;
-			font-family: 'Font Awesome 5 Free';
-			font-weight: 900;
-		}
-
 		#navPanelToggle:before {
-			content: '\f0c9';
-			margin-right: 0.5rem;
-		}
-
-		#articlePanelToggle:before {
 			content: '\f0c9';
 			margin-right: 0.5rem;
 		}
@@ -4569,17 +4530,7 @@ input, select, textarea {
 			color: #212931;
 		}
 
-		#articlePanelToggle.alt {
-			background-color: rgba(255, 255, 255, 0.875);
-			box-shadow: 0 0.125rem 0.75rem 0 rgba(30, 37, 45, 0.25);
-			color: #212931;
-		}
-
 			#navPanelToggle.alt:hover {
-				background-color: #ffffff;
-			}
-
-			#articlePanelToggle.alt:hover {
 				background-color: #ffffff;
 			}
 
@@ -4630,6 +4581,7 @@ input, select, textarea {
 			list-style: none;
 			padding-left: 0;
 		}
+
 
 			#navPanel .links li {
 				border-top: solid 2px #eeeeee;
