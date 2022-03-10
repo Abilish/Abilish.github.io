@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Do">
+    <title>震惊Σ(っ °Д °;)っ！MySQL中JOIN USING/ON竟有这些区别 - Do</title>
+    <meta name="author" content="Abilish">
+    
+    
+        <link rel="icon" href="http://example.com/assets/images/avatar.png">
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://abilish.github.com/","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。\n这标题够不够UC哈哈哈哈哈\n\n\n\n\n引言众所周知（不知也要知），MySQL语句中，JOIN可以将两个表甚至更多表联起来使用。最基础的就是JOIN ON\n1234SELECT *FROM 表名1 oJOIN 表名2 p    ON o.uuu_id = p.uuu_id\n当两个表中要充当中间连接的列名一样（uuu_id），就可以用USING替代：\n1234SELECT *FROM 表名1 oJOIN 表名2 p    USING (uuu_id)\n\n\n正文关于这件事情的起始源于我刷的一道题让我注意到了这个问题，题目如下：\n\nSQL34 统计复旦用户8月练题情况: 点击查看原题\n描述题目： 现在运营想要了解复旦大学的每个用户在8月份练习的总题目数和回答正确的题目数情况，请取出相应明细数据，对于在8月份没有练习过的用户，答题数结果返回0.\n示例：用户信息表user_profile\n\n\n\nid\ndevice_id\ngender\nage\nuniversity\ngpa\nactive_days_within_30\n\n\n\n1\n2138\nmale\n21\n北京大学\n3.4\n7\n\n\n2\n3214\nmale\n\n复旦大学\n4.0\n15\n\n\n3\n6543\nfemale\n20\n北京大学\n3.2\n12\n\n\n4\n2315\nfemale\n23\n浙江大学\n3.6\n5\n\n\n5\n5432\nmale\n25\n山东大学\n3.8\n20\n\n\n6\n2131\nmale\n28\n山东大学\n3.3\n15\n\n\n7\n4321\nfemale\n26\n复旦大学\n3.6\n9\n\n\n示例：question_practice_detail\n\n\n\nid\ndevice_id\nquestion_id\nresult\ndate\n\n\n\n1\n2138\n111\nwrong\n2021-05-03\n\n\n2\n3214\n112\nwrong\n2021-05-09\n\n\n3\n3214\n113\nwrong\n2021-06-15\n\n\n4\n6543\n111\nright\n2021-08-13\n\n\n5\n2315\n115\nright\n2021-08-13\n\n\n6\n2315\n116\nright\n2021-08-14\n\n\n7\n2315\n117\nwrong\n2021-08-15\n\n\n……\n\n\n\n\n\n\n根据示例，你的查询应返回以下结果：\n\n\n\ndevice_id\nuniversity\nquestion-cnt\nright_question_cnt\n\n\n\n3214\n复旦大学\n3\n0\n\n\n4321\n复旦大学\n0\n0\n\n\n\n写题过程省略…直接跳到重点\n这是正确解答：\n12345678910SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd ON up.device_id = qpd.device_id    AND MONTH(qpd.date) = 8WHERE university = &#x27;复旦大学&#x27;GROUP BY up.device_id\n\n第7行的ON替换成 USING 按理来说是可以使用的，但却报错了\n12345678910SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd USING(device_id)    AND MONTH(qpd.date) = 8WHERE university = &#x27;复旦大学&#x27;GROUP BY up.device_id\n\n\n\n官方文档中对USING的使用的解释大致就是说列明相同能用USING\n\nThe USING(*join_column_list*) clause names a list of columns that must exist in both tables. If tables a and b both contain columns c1, c2, and c3, the following join compares corresponding columns from the two tables:\n\n1a LEFT JOIN b USING (c1, c2, c3)\n\n\n\n结论：目前来看，ON的使用方法更为丰富也更多；USING后面应该是不能跟AND连接使用的，使用USING时后面尽量不要连接其他语句，以免发生未知错误，除非是非常熟悉该语句。\n当然也不一定非要这样使用……\n方法补充可以将and移到where中这样写同样有效，同时要注意\n123456789SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd USING (device_id)WHERE university = &#x27;复旦大学&#x27; AND (MONTH(qpd.date)=8 or date IS NULL)GROUP BY up.device_id\n\n\n\n那么问题来了，为什么 JOIN…ON…后面的date不用排除NULL就能得到正确答案，而WHERE后面就需要排除NULL呢？\n","dateCreated":"2022-03-04T11:12:10+08:00","dateModified":"2022-03-10T19:48:20+08:00","datePublished":"2022-03-04T11:12:10+08:00","description":"简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。\n这标题够不够UC哈哈哈哈哈\n","headline":"震惊Σ(っ °Д °;)っ！MySQL中JOIN USING/ON竟有这些区别","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://abilish.github.com/","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/","keywords":"MySQL, 小知识点"}</script>
+    <meta name="description" content="简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。 这标题够不够UC哈哈哈哈哈">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="震惊Σ(っ °Д °;)っ！MySQL中JOIN USING&#x2F;ON竟有这些区别">
+<meta property="og:url" content="http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="Do">
+<meta property="og:description" content="简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。 这标题够不够UC哈哈哈哈哈">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/doghead.jpg">
+<meta property="article:published_time" content="2022-03-04T03:12:10.000Z">
+<meta property="article:modified_time" content="2022-03-10T11:48:20.815Z">
+<meta property="article:author" content="Abilish">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="小知识点">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/doghead.jpg">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://example.com/assets/images/avatar.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-dnipa5uemzhoi9vvrnmqb2ijfofk2ioy6agrjzdgxdcme4ri2nzo71ht0dut.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Do
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Abilish</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Less is More.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
+                            
+                            rel="noopener"
+                            title="搜索"
+                        >
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://abilish.github.com/"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="http://stackoverflow.com/users"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Stack Overflow"
+                        >
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            震惊Σ(っ °Д °;)っ！MySQL中JOIN USING/ON竟有这些区别
+        </h1>
+    
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p><strong>简介</strong> ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。</p>
+<p>这标题够不够UC哈哈哈哈哈</p>
+<img src="/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/doghead.jpg" class="" title="狗头">
+<span id="more"></span>
+
+
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>众所周知（不知也要知），MySQL语句中，JOIN可以将两个表甚至更多表联起来使用。最基础的就是JOIN ON</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM 表名1 o</span><br><span class="line">JOIN 表名2 p</span><br><span class="line">    ON o.uuu_id = p.uuu_id</span><br></pre></td></tr></table></figure>
+<p>当两个表中要充当中间连接的列名一样（uuu_id），就可以用USING替代：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM 表名1 o</span><br><span class="line">JOIN 表名2 p</span><br><span class="line">    USING (uuu_id)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>关于这件事情的起始源于我刷的一道题让我注意到了这个问题，题目如下：</p>
+<blockquote>
+<p><strong>SQL34 统计复旦用户8月练题情况: <a target="_blank" rel="noopener" href="https://www.nowcoder.com/practice/53235096538a456b9220fce120c062b3">点击查看原题</a></strong></p>
+<p><strong>描述</strong><br>题目： 现在运营想要了解复旦大学的每个用户在8月份练习的总题目数和回答正确的题目数情况，请取出相应明细数据，对于在8月份没有练习过的用户，答题数结果返回0.</p>
+<p>示例：用户信息表user_profile</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>device_id</th>
+<th>gender</th>
+<th>age</th>
+<th>university</th>
+<th>gpa</th>
+<th>active_days_within_30</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>2138</td>
+<td>male</td>
+<td>21</td>
+<td>北京大学</td>
+<td>3.4</td>
+<td>7</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3214</td>
+<td>male</td>
+<td></td>
+<td>复旦大学</td>
+<td>4.0</td>
+<td>15</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6543</td>
+<td>female</td>
+<td>20</td>
+<td>北京大学</td>
+<td>3.2</td>
+<td>12</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2315</td>
+<td>female</td>
+<td>23</td>
+<td>浙江大学</td>
+<td>3.6</td>
+<td>5</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5432</td>
+<td>male</td>
+<td>25</td>
+<td>山东大学</td>
+<td>3.8</td>
+<td>20</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2131</td>
+<td>male</td>
+<td>28</td>
+<td>山东大学</td>
+<td>3.3</td>
+<td>15</td>
+</tr>
+<tr>
+<td>7</td>
+<td>4321</td>
+<td>female</td>
+<td>26</td>
+<td>复旦大学</td>
+<td>3.6</td>
+<td>9</td>
+</tr>
+</tbody></table>
+<p>示例：question_practice_detail</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>device_id</th>
+<th>question_id</th>
+<th>result</th>
+<th>date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>2138</td>
+<td>111</td>
+<td>wrong</td>
+<td>2021-05-03</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3214</td>
+<td>112</td>
+<td>wrong</td>
+<td>2021-05-09</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3214</td>
+<td>113</td>
+<td>wrong</td>
+<td>2021-06-15</td>
+</tr>
+<tr>
+<td>4</td>
+<td>6543</td>
+<td>111</td>
+<td>right</td>
+<td>2021-08-13</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2315</td>
+<td>115</td>
+<td>right</td>
+<td>2021-08-13</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2315</td>
+<td>116</td>
+<td>right</td>
+<td>2021-08-14</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2315</td>
+<td>117</td>
+<td>wrong</td>
+<td>2021-08-15</td>
+</tr>
+<tr>
+<td>……</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>根据示例，你的查询应返回以下结果：</p>
+<table>
+<thead>
+<tr>
+<th>device_id</th>
+<th>university</th>
+<th>question-cnt</th>
+<th>right_question_cnt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>3214</td>
+<td>复旦大学</td>
+<td>3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4321</td>
+<td>复旦大学</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+</blockquote>
+<p>写题过程省略…直接跳到重点</p>
+<p>这是正确解答：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT </span><br><span class="line">    up.device_id,</span><br><span class="line">    university,</span><br><span class="line">    COUNT(qpd.device_id) AS question_cnt,</span><br><span class="line">    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cnt</span><br><span class="line">FROM user_profile up</span><br><span class="line">LEFT JOIN question_practice_detail qpd ON up.device_id = qpd.device_id</span><br><span class="line">    AND MONTH(qpd.date) = 8</span><br><span class="line">WHERE university = &#x27;复旦大学&#x27;</span><br><span class="line">GROUP BY up.device_id</span><br></pre></td></tr></table></figure>
+
+<p>第7行的ON替换成 USING 按理来说是可以使用的，但却报错了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT </span><br><span class="line">    up.device_id,</span><br><span class="line">    university,</span><br><span class="line">    COUNT(qpd.device_id) AS question_cnt,</span><br><span class="line">    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cnt</span><br><span class="line">FROM user_profile up</span><br><span class="line">LEFT JOIN question_practice_detail qpd USING(device_id)</span><br><span class="line">    AND MONTH(qpd.date) = 8</span><br><span class="line">WHERE university = &#x27;复旦大学&#x27;</span><br><span class="line">GROUP BY up.device_id</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/join.html">官方文档</a>中对USING的使用的解释大致就是说列明相同能用USING</p>
+<ul>
+<li>The <code>USING(*</code>join_column_list<code>*)</code> clause names a list of columns that must exist in both tables. If tables <code>a</code> and <code>b</code> both contain columns <code>c1</code>, <code>c2</code>, and <code>c3</code>, the following join compares corresponding columns from the two tables:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a LEFT JOIN b USING (c1, c2, c3)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>结论</strong>：目前来看，ON的使用方法更为丰富也更多；USING后面应该是不能跟AND连接使用的，使用USING时后面尽量不要连接其他语句，以免发生未知错误，除非是非常熟悉该语句。</p>
+<p>当然也不一定非要这样使用……</p>
+<h3 id="方法补充"><a href="#方法补充" class="headerlink" title="方法补充"></a>方法补充</h3><p>可以将and移到where中这样写同样有效，同时要注意</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT </span><br><span class="line">    up.device_id,</span><br><span class="line">    university,</span><br><span class="line">    COUNT(qpd.device_id) AS question_cnt,</span><br><span class="line">    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cnt</span><br><span class="line">FROM user_profile up</span><br><span class="line">LEFT JOIN question_practice_detail qpd USING (device_id)</span><br><span class="line">WHERE university = &#x27;复旦大学&#x27; AND (MONTH(qpd.date)=8 or date IS NULL)</span><br><span class="line">GROUP BY up.device_id</span><br></pre></td></tr></table></figure>
+
+
+
+<p>那么问题来了，为什么 JOIN…ON…后面的date不用排除NULL就能得到正确答案，而WHERE后面就需要排除NULL呢？</p>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/MySQL/" rel="tag">MySQL</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag">小知识点</a>
+
+            </div>
+        
+        
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2022 Abilish. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Abilish</h4>
+        
+            <div id="about-card-bio"><p>Less is More.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p><a href="mailto:&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;">&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;</a></p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                China, Heilongjiang
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-u4gocod02ukvjjitb63sjkl6iu1qjp8lpnsrzttfhzhhifp6ao9kpwvy9cik.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+
+
+
+    </body>
+</html>

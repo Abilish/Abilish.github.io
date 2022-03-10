@@ -13,16 +13,16 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://abilish.github.com/","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。希望能够方便大家的学习😀等我写写，养肥了也会同步更新到其他平台⚠如有错误的地方，请邮箱联系我，留言系统待施工中😭\n目标：力求做到知识点叙述简单易懂，命令查阅方便。\n\n","dateCreated":"2022-03-02T11:02:38+08:00","dateModified":"2022-03-04T00:30:41+08:00","datePublished":"2022-03-02T11:02:38+08:00","description":"简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。希望能够方便大家的学习😀等我写写，养肥了也会同步更新到其他平台⚠如有错误的地方，请邮箱联系我，留言系统待施工中😭\n目标：力求做到知识点叙述简单易懂，命令查阅方便。","headline":"MySQL知识笔记","image":["mount.jpg","mount.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://abilish.github.com/","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/","keywords":"MySQL","thumbnailUrl":"mount.jpg"}</script>
-    <meta name="description" content="简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。希望能够方便大家的学习😀等我写写，养肥了也会同步更新到其他平台⚠如有错误的地方，请邮箱联系我，留言系统待施工中😭 目标：力求做到知识点叙述简单易懂，命令查阅方便。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://abilish.github.com/","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。\n主要目的是希望通过总结笔记形成自己的知识树。\n同时也希望能够方便大家的学习😀等我写写，养肥了打算会同步更新到其他平台⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭\n目标：力求做到知识点叙述简单易懂，命令查阅方便。\n\n\n\n\n\n\n基本概念数据库是以易于访问的格式存储的数据的集合。主要分为关系型（Relational）和非关系型（NoSQL）。\nMySQL是关系型数据库。\n例子：\n12345USE sql_case;SELECT *FROM case_idWHERE case_id = 1ORDER BY name;\n\n几点注意事项：\n\n使用 ; 终止一个语句\nFROM、WHERE、ORDER BY 的顺序很重要\n – 表示注释\n\n初级（不知道起什么名好，暂时先这个）1. SELECT子句123456SELECT \tDISTINCT first_column, \tsecond_column,\tthird_column，\t(number + 10) * 10 AS &#x27; number&#x27;FROM example\n\n\n查询到的顺序和 SELECT 后所写的顺序一致\n\n可以使用算术表达式：+、-、*、/、% ，通过括号() 改变运算优先级\n\n使用 AS 对列名进行重命名，若使用单/双引号，则名称中可以插入空格。\nDISTINCT 关键字删除重复数据\n\n\n格式方面\n\nSELECT 语句太长应分成多行写\n\n2. WHERE 子句12345SELECT *FROM exampleWHERE number &gt; 10或WHERE birthday &gt;= &#x27;2000-01-01&#x27;\n\nWHERE 是对查询设置条件，圈定出想要的数据范围，过滤出范围外的数据\n日期不是字符串，但应该用单引号括上(?)\n运算符： &gt;、&gt;=、&lt;、&lt;=、=、!=或&lt;&gt;\n关键字总结DISTINCT 关键字删除重复数据\n","dateCreated":"2022-03-02T11:02:38+08:00","dateModified":"2022-03-10T20:35:38+08:00","datePublished":"2022-03-02T11:02:38+08:00","description":"简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。\n主要目的是希望通过总结笔记形成自己的知识树。\n同时也希望能够方便大家的学习😀等我写写，养肥了打算会同步更新到其他平台⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭\n目标：力求做到知识点叙述简单易懂，命令查阅方便。","headline":"MySQL知识笔记","image":["mount.jpg","mount.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://abilish.github.com/","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/","keywords":"MySQL","thumbnailUrl":"mount.jpg"}</script>
+    <meta name="description" content="简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。 主要目的是希望通过总结笔记形成自己的知识树。 同时也希望能够方便大家的学习😀等我写写，养肥了打算会同步更新到其他平台⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭 目标：力求做到知识点叙述简单易懂，命令查阅方便。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="MySQL知识笔记">
 <meta property="og:url" content="http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Do">
-<meta property="og:description" content="简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。希望能够方便大家的学习😀等我写写，养肥了也会同步更新到其他平台⚠如有错误的地方，请邮箱联系我，留言系统待施工中😭 目标：力求做到知识点叙述简单易懂，命令查阅方便。">
+<meta property="og:description" content="简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。 主要目的是希望通过总结笔记形成自己的知识树。 同时也希望能够方便大家的学习😀等我写写，养肥了打算会同步更新到其他平台⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭 目标：力求做到知识点叙述简单易懂，命令查阅方便。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-02T03:02:38.000Z">
-<meta property="article:modified_time" content="2022-03-03T16:30:41.239Z">
+<meta property="article:modified_time" content="2022-03-10T12:35:38.290Z">
 <meta property="article:author" content="Abilish">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -272,9 +272,48 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p><strong>简介</strong> ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。<br>希望能够方便大家的学习😀<br>等我写写，养肥了也会同步更新到其他平台<br>⚠如有错误的地方，请邮箱联系我，留言系统待施工中😭</p>
+            <p><strong>简介</strong> ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。</p>
+<p>主要目的是希望通过总结笔记形成自己的知识树。</p>
+<p>同时也希望能够方便大家的学习😀<br>等我写写，养肥了打算会同步更新到其他平台<br>⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭</p>
 <p><strong>目标</strong>：力求做到知识点叙述简单易懂，命令查阅方便。</p>
 <span id="more"></span>
+
+
+
+
+
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p><strong>数据库</strong>是以易于访问的格式存储的数据的集合。主要分为<strong>关系型（Relational）</strong>和<strong>非关系型（NoSQL）</strong>。</p>
+<p>MySQL是关系型数据库。</p>
+<p>例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">USE sql_case;</span><br><span class="line">SELECT *</span><br><span class="line">FROM case_id</span><br><span class="line">WHERE case_id = 1</span><br><span class="line">ORDER BY name;</span><br></pre></td></tr></table></figure>
+
+<p>几点注意事项：</p>
+<ol>
+<li>使用 ; 终止一个语句</li>
+<li>FROM、WHERE、ORDER BY 的顺序很重要</li>
+<li> – 表示注释</li>
+</ol>
+<h1 id="初级（不知道起什么名好，暂时先这个）"><a href="#初级（不知道起什么名好，暂时先这个）" class="headerlink" title="初级（不知道起什么名好，暂时先这个）"></a>初级（不知道起什么名好，暂时先这个）</h1><h2 id="1-SELECT子句"><a href="#1-SELECT子句" class="headerlink" title="1. SELECT子句"></a>1. SELECT子句</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT </span><br><span class="line">	DISTINCT first_column, </span><br><span class="line">	second_column,</span><br><span class="line">	third_column，</span><br><span class="line">	(number + 10) * 10 AS &#x27; number&#x27;</span><br><span class="line">FROM example</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>查询到的顺序和 SELECT 后所写的顺序一致</p>
+</li>
+<li><p>可以使用算术表达式：+、-、*、/、% ，通过括号() 改变运算优先级</p>
+</li>
+<li><p>使用 AS 对列名进行重命名，若使用单/双引号，则名称中可以插入空格。</p>
+<p>DISTINCT 关键字删除重复数据</p>
+</li>
+</ol>
+<p><strong>格式方面</strong></p>
+<ol>
+<li>SELECT 语句太长应分成多行写</li>
+</ol>
+<h2 id="2-WHERE-子句"><a href="#2-WHERE-子句" class="headerlink" title="2. WHERE 子句"></a>2. WHERE 子句</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM example</span><br><span class="line">WHERE number &gt; 10</span><br><span class="line">或</span><br><span class="line">WHERE birthday &gt;= &#x27;2000-01-01&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>WHERE 是对查询设置条件，圈定出想要的数据范围，过滤出范围外的数据</p>
+<p>日期不是字符串，但应该用单引号括上(?)</p>
+<p><strong>运算符</strong>： &gt;、&gt;=、&lt;、&lt;=、=、!=或&lt;&gt;</p>
+<h1 id="关键字总结"><a href="#关键字总结" class="headerlink" title="关键字总结"></a>关键字总结</h1><p>DISTINCT 关键字删除重复数据</p>
 
             
 
@@ -330,7 +369,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#x73;&#x66;&#121;&#95;&#109;&#120;&#64;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#109;">&#x73;&#x66;&#121;&#95;&#109;&#120;&#64;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#109;</a></p>
+                <p><a href="mailto:&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;">&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;</a></p>
 
             </div>
         
