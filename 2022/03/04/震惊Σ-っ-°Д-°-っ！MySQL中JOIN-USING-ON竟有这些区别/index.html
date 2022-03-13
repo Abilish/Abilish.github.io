@@ -13,7 +13,7 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。\n这标题够不够UC哈哈哈哈哈\n\n\n\n\n引言众所周知（不知也要知），MySQL语句中，JOIN可以将两个表甚至更多表联起来使用。最基础的就是JOIN ON\n1234SELECT *FROM 表名1 oJOIN 表名2 p    ON o.uuu_id = p.uuu_id\n当两个表中要充当中间连接的列名一样（uuu_id），就可以用USING替代：\n1234SELECT *FROM 表名1 oJOIN 表名2 p    USING (uuu_id)\n\n\n正文关于这件事情的起始源于我刷的一道题让我注意到了这个问题，题目如下：\n\nSQL34 统计复旦用户8月练题情况: 点击查看原题\n描述题目： 现在运营想要了解复旦大学的每个用户在8月份练习的总题目数和回答正确的题目数情况，请取出相应明细数据，对于在8月份没有练习过的用户，答题数结果返回0.\n示例：用户信息表user_profile\n\n\n\nid\ndevice_id\ngender\nage\nuniversity\ngpa\nactive_days_within_30\n\n\n\n1\n2138\nmale\n21\n北京大学\n3.4\n7\n\n\n2\n3214\nmale\n\n复旦大学\n4.0\n15\n\n\n3\n6543\nfemale\n20\n北京大学\n3.2\n12\n\n\n4\n2315\nfemale\n23\n浙江大学\n3.6\n5\n\n\n5\n5432\nmale\n25\n山东大学\n3.8\n20\n\n\n6\n2131\nmale\n28\n山东大学\n3.3\n15\n\n\n7\n4321\nfemale\n26\n复旦大学\n3.6\n9\n\n\n示例：question_practice_detail\n\n\n\nid\ndevice_id\nquestion_id\nresult\ndate\n\n\n\n1\n2138\n111\nwrong\n2021-05-03\n\n\n2\n3214\n112\nwrong\n2021-05-09\n\n\n3\n3214\n113\nwrong\n2021-06-15\n\n\n4\n6543\n111\nright\n2021-08-13\n\n\n5\n2315\n115\nright\n2021-08-13\n\n\n6\n2315\n116\nright\n2021-08-14\n\n\n7\n2315\n117\nwrong\n2021-08-15\n\n\n……\n\n\n\n\n\n\n根据示例，你的查询应返回以下结果：\n\n\n\ndevice_id\nuniversity\nquestion-cnt\nright_question_cnt\n\n\n\n3214\n复旦大学\n3\n0\n\n\n4321\n复旦大学\n0\n0\n\n\n\n写题过程省略…直接跳到重点\n这是正确解答：\n12345678910SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd ON up.device_id = qpd.device_id    AND MONTH(qpd.date) = 8WHERE university = &#x27;复旦大学&#x27;GROUP BY up.device_id\n\n第7行的ON替换成 USING 按理来说是可以使用的，但却报错了\n12345678910SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd USING(device_id)    AND MONTH(qpd.date) = 8WHERE university = &#x27;复旦大学&#x27;GROUP BY up.device_id\n\n\n\n官方文档中对USING的使用的解释大致就是说列明相同能用USING\n\nThe USING(*join_column_list*) clause names a list of columns that must exist in both tables. If tables a and b both contain columns c1, c2, and c3, the following join compares corresponding columns from the two tables:\n\n1a LEFT JOIN b USING (c1, c2, c3)\n\n\n\n结论：目前来看，ON的使用方法更为丰富也更多；USING后面应该是不能跟AND连接使用的，使用USING时后面尽量不要连接其他语句，以免发生未知错误，除非是非常熟悉该语句。\n当然也不一定非要这样使用……\n方法补充可以将and移到where中这样写同样有效，同时要注意\n123456789SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd USING (device_id)WHERE university = &#x27;复旦大学&#x27; AND (MONTH(qpd.date)=8 or date IS NULL)GROUP BY up.device_id\n\n\n\n那么问题来了，为什么 JOIN…ON…后面的date不用排除NULL就能得到正确答案，而WHERE后面就需要排除NULL呢？\n","dateCreated":"2022-03-04T11:12:10+08:00","dateModified":"2022-03-10T19:48:20+08:00","datePublished":"2022-03-04T11:12:10+08:00","description":"简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。\n这标题够不够UC哈哈哈哈哈\n","headline":"震惊Σ(っ °Д °;)っ！MySQL中JOIN USING/ON竟有这些区别","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/","keywords":"MySQL, 小知识点"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。\n这标题够不够UC哈哈哈哈哈\n\n\n\n\n引言众所周知（不知也要知），MySQL语句中，JOIN可以将两个表甚至更多表联起来使用。最基础的就是JOIN ON\n1234SELECT *FROM 表名1 oJOIN 表名2 p    ON o.uuu_id = p.uuu_id\n当两个表中要充当中间连接的列名一样（uuu_id），就可以用USING替代：\n1234SELECT *FROM 表名1 oJOIN 表名2 p    USING (uuu_id)\n\n\n正文关于这件事情的起始源于我刷的一道题让我注意到了这个问题，题目如下：\n\nSQL34 统计复旦用户8月练题情况: 点击查看原题\n描述题目： 现在运营想要了解复旦大学的每个用户在8月份练习的总题目数和回答正确的题目数情况，请取出相应明细数据，对于在8月份没有练习过的用户，答题数结果返回0.\n示例：用户信息表user_profile\n\n\n\nid\ndevice_id\ngender\nage\nuniversity\ngpa\nactive_days_within_30\n\n\n\n1\n2138\nmale\n21\n北京大学\n3.4\n7\n\n\n2\n3214\nmale\n\n复旦大学\n4.0\n15\n\n\n3\n6543\nfemale\n20\n北京大学\n3.2\n12\n\n\n4\n2315\nfemale\n23\n浙江大学\n3.6\n5\n\n\n5\n5432\nmale\n25\n山东大学\n3.8\n20\n\n\n6\n2131\nmale\n28\n山东大学\n3.3\n15\n\n\n7\n4321\nfemale\n26\n复旦大学\n3.6\n9\n\n\n示例：question_practice_detail\n\n\n\nid\ndevice_id\nquestion_id\nresult\ndate\n\n\n\n1\n2138\n111\nwrong\n2021-05-03\n\n\n2\n3214\n112\nwrong\n2021-05-09\n\n\n3\n3214\n113\nwrong\n2021-06-15\n\n\n4\n6543\n111\nright\n2021-08-13\n\n\n5\n2315\n115\nright\n2021-08-13\n\n\n6\n2315\n116\nright\n2021-08-14\n\n\n7\n2315\n117\nwrong\n2021-08-15\n\n\n……\n\n\n\n\n\n\n根据示例，你的查询应返回以下结果：\n\n\n\ndevice_id\nuniversity\nquestion-cnt\nright_question_cnt\n\n\n\n3214\n复旦大学\n3\n0\n\n\n4321\n复旦大学\n0\n0\n\n\n\n写题过程省略…直接跳到重点\n这是正确解答：\n12345678910SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd ON up.device_id = qpd.device_id    AND MONTH(qpd.date) = 8WHERE university = &#x27;复旦大学&#x27;GROUP BY up.device_id\n\n第7行的ON替换成 USING 按理来说是可以使用的，但却报错了\n12345678910SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd USING(device_id)    AND MONTH(qpd.date) = 8WHERE university = &#x27;复旦大学&#x27;GROUP BY up.device_id\n\n\n\n官方文档中对USING的使用的解释大致就是说列明相同能用USING\n\nThe USING(*join_column_list*) clause names a list of columns that must exist in both tables. If tables a and b both contain columns c1, c2, and c3, the following join compares corresponding columns from the two tables:\n\n1a LEFT JOIN b USING (c1, c2, c3)\n\n\n\n结论：目前来看，ON的使用方法更为丰富也更多；USING后面应该是不能跟AND连接使用的，使用USING时后面尽量不要连接其他语句，以免发生未知错误，除非是非常熟悉该语句。\n当然也不一定非要这样使用……\n方法补充可以将and移到where中这样写同样有效，同时要注意\n123456789SELECT     up.device_id,    university,    COUNT(qpd.device_id) AS question_cnt,    SUM(IF(qpd.result = &#x27;right&#x27;, 1, 0)) AS right_question_cntFROM user_profile upLEFT JOIN question_practice_detail qpd USING (device_id)WHERE university = &#x27;复旦大学&#x27; AND (MONTH(qpd.date)=8 or date IS NULL)GROUP BY up.device_id\n\n\n\n那么问题来了，为什么 JOIN…ON…后面的date不用排除NULL就能得到正确答案，而WHERE后面就需要排除NULL呢？\n","dateCreated":"2022-03-04T11:12:10+08:00","dateModified":"2022-03-11T22:12:54+08:00","datePublished":"2022-03-04T11:12:10+08:00","description":"简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。\n这标题够不够UC哈哈哈哈哈\n","headline":"震惊Σ(っ °Д °;)っ！MySQL中JOIN USING/ON竟有这些区别","image":[null,"cats.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/","keywords":"MySQL, 小知识点","thumbnailUrl":"cats.jpg"}</script>
     <meta name="description" content="简介 ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。 这标题够不够UC哈哈哈哈哈">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="震惊Σ(っ °Д °;)っ！MySQL中JOIN USING&#x2F;ON竟有这些区别">
@@ -23,7 +23,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/doghead.jpg">
 <meta property="article:published_time" content="2022-03-04T03:12:10.000Z">
-<meta property="article:modified_time" content="2022-03-10T11:48:20.815Z">
+<meta property="article:modified_time" content="2022-03-11T14:12:54.150Z">
 <meta property="article:author" content="Abilish">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="小知识点">
@@ -37,6 +37,9 @@
         <meta property="og:image" content="http://example.com/assets/images/avatar.png"/>
     
     
+    
+        <meta property="og:image" content="http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/cats.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://example.com/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/cats.jpg"/>
     
     
     <!--STYLES-->
@@ -241,9 +244,17 @@
 </nav>
 
             
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--partial"
+             style="background-image:url('/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/cats.jpg');"
+             data-behavior="4">
+            
+        </div>
+
             <div id="main" data-behavior="4"
-                 class="
-                        hasCoverMetaIn
+                 class="hasCover
+                        hasCoverMetaOut
                         ">
                 
 <article class="post">
@@ -263,7 +274,7 @@
         <div class="main-content-wrap">
             <p><strong>简介</strong> ：在一次练习中发现的小知识点，找了一圈发现没有人在说，都在复制粘贴啊。因此，记录下来。</p>
 <p>这标题够不够UC哈哈哈哈哈</p>
-<img src="/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/doghead.jpg" class="" title="狗头">
+<!-- <img src="/2022/03/04/%E9%9C%87%E6%83%8A%CE%A3-%E3%81%A3-%C2%B0%D0%94-%C2%B0-%E3%81%A3%EF%BC%81MySQL%E4%B8%ADJOIN-USING-ON%E7%AB%9F%E6%9C%89%E8%BF%99%E4%BA%9B%E5%8C%BA%E5%88%AB/doghead.jpg" class="" title="狗头"> -->
 <span id="more"></span>
 
 
@@ -526,7 +537,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#115;&#x66;&#121;&#x5f;&#x6d;&#120;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#115;&#x66;&#121;&#x5f;&#x6d;&#120;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></p>
+                <p><a href="mailto:&#115;&#x66;&#121;&#95;&#x6d;&#120;&#64;&#49;&#54;&#51;&#46;&#99;&#x6f;&#109;">&#115;&#x66;&#121;&#95;&#x6d;&#120;&#64;&#49;&#54;&#51;&#46;&#99;&#x6f;&#109;</a></p>
 
             </div>
         

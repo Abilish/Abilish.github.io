@@ -13,7 +13,7 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。主要目的是希望通过总结笔记形成自己的知识树。同时也希望能够方便大家的学习😀⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭\n目标：力求做到知识点叙述简单易懂，命令查阅方便。\n\n\n\n\n\n\n基本概念数据库是以易于访问的格式存储的数据的集合。主要分为关系型（Relational）和非关系型（NoSQL）。\nMySQL是关系型数据库。\n例子：\n12345USE sql_case;SELECT *FROM case_idWHERE case_id = 1ORDER BY name;\n\n几点注意事项：\n\n使用 ; 终止一个语句\nFROM、WHERE、ORDER BY 的顺序很重要\n – 表示注释\n\n初级（不知道起什么名好，暂时先这个）1. SELECT子句123456SELECT \tDISTINCT first_column, \tsecond_column,\tthird_column，\t(number + 10) * 10 AS &#x27; number&#x27;FROM example\n\n\n查询到的顺序和 SELECT 后所写的顺序一致\n\n可以使用算术表达式：+、-、*、/、% ，通过括号() 改变运算优先级\n\n使用 AS 对列名进行重命名，若使用单/双引号，则名称中可以插入空格。\nDISTINCT 关键字删除重复数据\n\n\n格式方面\n\nSELECT 语句太长应分成多行写\n\n2. WHERE 子句12345SELECT *FROM exampleWHERE number &gt; 10或WHERE birthday &gt;= &#x27;2000-01-01&#x27;\n\nWHERE 是对查询设置条件，圈定出想要的数据范围，过滤出范围外的数据\n日期不是字符串，但应该用单引号括上(?)\n运算符： &gt;、&gt;=、&lt;、&lt;=、=、!=或&lt;&gt;\n\n\n\n关键字总结DISTINCT 关键字删除重复数据\n","dateCreated":"2022-03-02T11:02:38+08:00","dateModified":"2022-03-11T15:07:47+08:00","datePublished":"2022-03-02T11:02:38+08:00","description":"简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。主要目的是希望通过总结笔记形成自己的知识树。同时也希望能够方便大家的学习😀⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭\n目标：力求做到知识点叙述简单易懂，命令查阅方便。","headline":"MySQL知识笔记","image":["mount.jpg","mount.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/","keywords":"MySQL","thumbnailUrl":"mount.jpg"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。主要目的是希望通过总结笔记形成自己的知识树。同时也希望能够方便大家的学习😀⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭\n目标：力求做到知识点叙述简单易懂，命令查阅方便。\n\n\n\n\n\n\n基本概念数据库是以易于访问的格式存储的数据的集合。主要分为关系型（Relational）和非关系型（NoSQL）。\nMySQL是关系型数据库。\n例子：\n12345USE sql_case;SELECT *FROM case_idWHERE case_id = 1ORDER BY name;\n\n几点注意事项：\n\n使用 ; 终止一个语句\nFROM、WHERE、ORDER BY 的顺序很重要\n – 表示注释\n\n初级（不知道起什么名好，暂时先这个）1. SELECT子句123456SELECT \tDISTINCT first_column, \tsecond_column,\tthird_column，\t(number + 10) * 10 AS &#x27; number&#x27;FROM example\n\n\n查询到的顺序和 SELECT 后所写的顺序一致\n\n可以使用算术表达式：+、-、*、/、% ，通过括号() 改变运算优先级\n\n使用 AS 对列名进行重命名，若使用单/双引号，则名称中可以插入空格。\nDISTINCT 关键字删除重复数据\n\n\n格式方面\n\nSELECT 语句太长应分成多行写\n\n2. WHERE 子句12345SELECT *FROM exampleWHERE number &gt; 10或WHERE birthday &gt;= &#x27;2000-01-01&#x27;\n\nWHERE 是对查询设置条件，圈定出想要的数据范围，过滤出范围外的数据\n日期不是字符串，但应该用单引号括上(?)\n运算符： &gt;、&gt;=、&lt;、&lt;=、=、!=或&lt;&gt;\n\n\n\n关键字总结DISTINCT 关键字删除重复数据\n","dateCreated":"2022-03-02T11:02:38+08:00","dateModified":"2022-03-11T22:07:50+08:00","datePublished":"2022-03-02T11:02:38+08:00","description":"简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。主要目的是希望通过总结笔记形成自己的知识树。同时也希望能够方便大家的学习😀⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭\n目标：力求做到知识点叙述简单易懂，命令查阅方便。","headline":"MySQL知识笔记","image":["mount.jpg","mount.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/","keywords":"MySQL","thumbnailUrl":"mount.jpg"}</script>
     <meta name="description" content="简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。主要目的是希望通过总结笔记形成自己的知识树。同时也希望能够方便大家的学习😀⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭 目标：力求做到知识点叙述简单易懂，命令查阅方便。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="MySQL知识笔记">
@@ -22,7 +22,7 @@
 <meta property="og:description" content="简介 ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。主要目的是希望通过总结笔记形成自己的知识树。同时也希望能够方便大家的学习😀⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭 目标：力求做到知识点叙述简单易懂，命令查阅方便。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-02T03:02:38.000Z">
-<meta property="article:modified_time" content="2022-03-11T07:07:47.372Z">
+<meta property="article:modified_time" content="2022-03-11T14:07:50.090Z">
 <meta property="article:author" content="Abilish">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -246,7 +246,7 @@
             
         <div class="post-header-cover
                     text-center
-                    post-header-cover--full"
+                    post-header-cover--partial"
              style="background-image:url('/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/mount.jpg');"
              data-behavior="4">
             
@@ -276,7 +276,7 @@
 <p><strong>目标</strong>：力求做到知识点叙述简单易懂，命令查阅方便。</p>
 <span id="more"></span>
 
-
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E7%BA%A7%EF%BC%88%E4%B8%8D%E7%9F%A5%E9%81%93%E8%B5%B7%E4%BB%80%E4%B9%88%E5%90%8D%E5%A5%BD%EF%BC%8C%E6%9A%82%E6%97%B6%E5%85%88%E8%BF%99%E4%B8%AA%EF%BC%89"><span class="toc-text">初级（不知道起什么名好，暂时先这个）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-SELECT%E5%AD%90%E5%8F%A5"><span class="toc-text">1. SELECT子句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-WHERE-%E5%AD%90%E5%8F%A5"><span class="toc-text">2. WHERE 子句</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E6%80%BB%E7%BB%93"><span class="toc-text">关键字总结</span></a></li></ol>
 
 
 
@@ -370,7 +370,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#115;&#x66;&#121;&#x5f;&#x6d;&#120;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#115;&#x66;&#121;&#x5f;&#x6d;&#120;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></p>
+                <p><a href="mailto:&#115;&#x66;&#121;&#95;&#x6d;&#120;&#64;&#49;&#54;&#51;&#46;&#99;&#x6f;&#109;">&#115;&#x66;&#121;&#95;&#x6d;&#120;&#64;&#49;&#54;&#51;&#46;&#99;&#x6f;&#109;</a></p>
 
             </div>
         

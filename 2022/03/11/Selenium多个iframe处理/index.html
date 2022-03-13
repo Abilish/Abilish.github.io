@@ -6,20 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Do">
-    <title>分类: 技术 - Do</title>
+    <title>Selenium知识笔记 - Do</title>
     <meta name="author" content="Abilish">
     
     
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{}</script>
-    <meta property="og:type" content="blog">
-<meta property="og:title" content="Do">
-<meta property="og:url" content="http://example.com/categories/%E6%8A%80%E6%9C%AF/index.html">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"简介 ：整理Selenium操作浏览器的常用方法\n\n\n\n\n\n\n\n\n\n\n\n1、多个iframe切换基础知识iframe是HTML中的框架标签，也就是可以显示多个页面 （待补充）\n1&lt;iframe src=&quot;/i/eg_landscape.jpg&quot;&gt;&lt;/iframe&gt;\n\n\n\nframe标签的类型有三种：frameset、frame、iframe\nframeset和普通标签没有区别，不会影响定位；对Selenium来说frame和iframe的处理方法是一样的。\n1. 切换frame1driver.switch_to.frame(param)\n\n传入的参数param可以为iframe元素的：\n\n​    id、name、index等属性\n\n​    定位该iframe所返回的Selenium的WebElement对象\n\n\n12345get_driver.switch_to.frame(0)     # index索引定位get_driver.switch_to.frame(&quot;frameid&quot;)    # id定位get_driver.switch_to.frame(&quot;frameneme&quot;)  # name定位get_driver.switch_to.frame(get_driver.find_element_by_id(&#x27;frameid&#x27;))     # WebElement定位\n\n\n\n\n\n\n\n\n\n\n\n\n\n","dateCreated":"2022-03-11T19:38:27+08:00","dateModified":"2022-03-13T17:47:15+08:00","datePublished":"2022-03-11T19:38:27+08:00","description":"简介 ：整理Selenium操作浏览器的常用方法\n","headline":"Selenium知识笔记","image":[null,"gear.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/11/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/11/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/","keywords":"小知识点","thumbnailUrl":"gear.jpg"}</script>
+    <meta name="description" content="简介 ：整理Selenium操作浏览器的常用方法">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Selenium知识笔记">
+<meta property="og:url" content="http://example.com/2022/03/11/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="Do">
+<meta property="og:description" content="简介 ：整理Selenium操作浏览器的常用方法">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-11T11:38:27.000Z">
+<meta property="article:modified_time" content="2022-03-13T09:47:15.599Z">
 <meta property="article:author" content="Abilish">
+<meta property="article:tag" content="小知识点">
 <meta name="twitter:card" content="summary">
     
     
@@ -29,6 +34,9 @@
         <meta property="og:image" content="http://example.com/assets/images/avatar.png"/>
     
     
+    
+        <meta property="og:image" content="http://example.com/2022/03/11/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/gear.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://example.com/2022/03/11/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/gear.jpg"/>
     
     
     <!--STYLES-->
@@ -54,7 +62,7 @@
         
     
 
-<header id="header" data-behavior="1">
+<header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a
@@ -87,7 +95,7 @@
         
     
 
-<nav id="sidebar" data-behavior="1">
+<nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -233,148 +241,95 @@
 </nav>
 
             
-            <div id="main" data-behavior="1"
-                 class="
-                        hasCoverMetaIn
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--partial"
+             style="background-image:url('/2022/03/11/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/gear.jpg');"
+             data-behavior="4">
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaOut
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2022/03/03/Hexo-tranquilpeak%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"
-                            aria-label=": Hexo+tranquilpeak主题配置使用完全指南"
-                        >
-                            Hexo+tranquilpeak主题配置使用完全指南
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2022-03-03T21:03:47+08:00">
-	
-		    3月 03, 2022
-    	
-    </time>
+        <div class="post-header main-content-wrap text-center">
     
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>, <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%99/">博客建站</a>
-
-
+        <h1 class="post-title">
+            Selenium知识笔记
+        </h1>
+    
     
 </div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p><strong>简介</strong> ：整理Selenium操作浏览器的常用方法</p>
+<hr>
+<span id="more"></span>
+
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81%E5%A4%9A%E4%B8%AAiframe%E5%88%87%E6%8D%A2"><span class="toc-text">1、多个iframe切换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%87%E6%8D%A2frame"><span class="toc-text">1. 切换frame</span></a></li></ol></li></ol></li></ol>
+
+
+
+
+
+
+
+<h1 id="1、多个iframe切换"><a href="#1、多个iframe切换" class="headerlink" title="1、多个iframe切换"></a>1、多个iframe切换</h1><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>iframe是HTML中的框架标签，也就是可以显示多个页面 （待补充）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;/i/eg_landscape.jpg&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>frame标签的类型有三种：frameset、frame、iframe</p>
+<p>frameset和普通标签没有区别，不会影响定位；<strong>对Selenium来说frame和iframe的处理方法是一样的。</strong></p>
+<h3 id="1-切换frame"><a href="#1-切换frame" class="headerlink" title="1. 切换frame"></a><strong>1. 切换frame</strong></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.switch_to.frame(param)</span><br></pre></td></tr></table></figure>
+
+<p>传入的参数param可以为iframe元素的：</p>
+<ul>
+<li><p>​    <strong>id、name、index</strong>等<strong>属性</strong></p>
+</li>
+<li><p>​    定位该iframe所返回的Selenium的WebElement对象</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get_driver.switch_to.frame(<span class="number">0</span>)     <span class="comment"># index索引定位</span></span><br><span class="line">get_driver.switch_to.frame(<span class="string">&quot;frameid&quot;</span>)    <span class="comment"># id定位</span></span><br><span class="line">get_driver.switch_to.frame(<span class="string">&quot;frameneme&quot;</span>)  <span class="comment"># name定位</span></span><br><span class="line">get_driver.switch_to.frame(get_driver.find_element_by_id(</span><br><span class="line"><span class="string">&#x27;frameid&#x27;</span>))     <span class="comment"># WebElement定位</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag">小知识点</a>
 
             </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><strong>简介</strong> ：从0开始打造属于自己的网站。目前处于一边学习摸索一边整理记录的阶段，谁不想自己DIY一个网站呢🤭<br>完全面向小白向，力求让大家能自己编出鱼篓子，附带解释，图片。<br><strong>目标</strong> ：争取做到简洁清晰</p>
-<p>⚠ 如有错误请 <del>漂流瓶</del> 邮箱联系我<br>持续更新完善中……</p>
-                    
-                        <a
-                            href="/2022/03/03/Hexo-tranquilpeak%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Hexo+tranquilpeak主题配置使用完全指南"
-                        >
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-            <a
-                href="/2022/03/03/Hexo-tranquilpeak%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"
-                aria-label=": Hexo+tranquilpeak主题配置使用完全指南"
-            >
-                <div class="postShorten-thumbnailimg">
-                    <img alt="" src="http://example.com/2022/03/03/Hexo-tranquilpeak%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/bg.jpg"/>
-                </div>
-            </a>
-            
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2022/03/01/hello-blog-test/"
-                            aria-label=": hello blog test"
-                        >
-                            hello blog test
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2022-03-01T16:47:19+08:00">
-	
-		    3月 01, 2022
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<!-- <img src="/2022/03/01/hello-blog-test/nama.png" class="" title="This is an example image"> -->
-<!-- ![dog](dog.png) -->
-<p>测试专用页</p>
-                    
-                        <a
-                            href="/2022/03/01/hello-blog-test/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": hello blog test"
-                        >
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-            <a
-                href="/2022/03/01/hello-blog-test/"
-                aria-label=": hello blog test"
-            >
-                <div class="postShorten-thumbnailimg">
-                    <img alt="" src="http://example.com/2022/03/01/hello-blog-test/trees.jpg"/>
-                </div>
-            </a>
-            
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
         
         
-        <li class="pagination-number">第 1 页 共 1 页</li>
-    </ul>
-</div>
-
-</section>
+        
+    </div>
+</article>
 
 
 
