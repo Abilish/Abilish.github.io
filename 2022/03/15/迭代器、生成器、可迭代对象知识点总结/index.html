@@ -13,7 +13,7 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"有关迭代器、迭代器对象、生成器、可迭代对象的知识点的学习总结、\n\n\n\n\n\n\n1. 迭代器1.1迭代器的定义\n类中定义了__iter__、__next__两个方法\n__iter__方法返回self\n__next__方法返回下一个数据，如果没有数据了，则需要抛出一个Stopiteration的异常\n\n1.2 迭代器对象迭代器对象就是对迭代器的实例化\n\n可以通过反复执行__next__方法获取其中的值，有两种调用方式：\n\n123obj1 = Exa()v1 = obj1.__next()v1 = next(obj1)\n\n其中，Exa是迭代器的类名，obj1是对迭代器实例化的对象\n\n可以对迭代器对象进行for循环\n\n123obj2 = Exa()for o in obj2:    print(o)\n\n过程：\n① 首先会执行迭代器对象中的__iter__方法并获取返回值（返回self）\n②然后会反复执行next(obj2)\n③直到没有数据了，抛出异常\n2. 生成器定义一个函数，函数中只要有yield，这个函数就被称为生成器函数。\n生成器函数（） 就是生成器对象（内部是根据生成器类generator创建的对象），生成器类的内部也声明了：__iter__、__next__ 方法。\n如果按照迭代器的规定来看，生成器也可以认为是一种特殊的迭代器\n3. 可迭代对象如果一个类中有__iter__方法且返回一个迭代器对象 ，则我们称以这个类创建的对象为可迭代对象。\n123456789101112class Foo(object):\tdef __iter__(self):\t\treturn 迭代器对象（生成器对象）\t\tobj = Foo()# 可迭代对象是可以使用for来进行循环，在循环的内部其实是先执行__iter__方法，获取其迭代器对象，然后再在内部执行这个迭代器对象的next功能，逐步取值。for item in obj:\tpass\n\n1range(100)  # 返回可迭代对象\n\n列表、元组、字典、集合常见的数据类型全是可迭代对象\niterable：判断__iter__ ，返回的可能是可迭代对象，也可能是迭代器\niterator：判断__iter__ 、__next__ ，返回的是迭代器\n","dateCreated":"2022-03-15T21:35:55+08:00","dateModified":"2022-03-15T22:10:50+08:00","datePublished":"2022-03-15T21:35:55+08:00","description":"有关迭代器、迭代器对象、生成器、可迭代对象的知识点的学习总结、","headline":"迭代器、生成器、可迭代对象知识点总结","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/","keywords":"创作中, 小知识点"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"有关迭代器、迭代器对象、生成器、可迭代对象的知识点的学习总结、\n\n\n\n\n\n\n1. 迭代器1.1迭代器\n类中定义了__iter__、__next__两个方法\n__iter__方法返回self\n__next__方法返回下一个数据，如果没有数据了，则需要抛出一个StopIteration的异常\n\n123456789101112class Exa:    def __init__(self):        self.counter = 0            def __iter__(self):        return self        def __next__(self):        self.counter += 1        if self.counter == 5:            raise StopIteration()        return self.counter\n\n\n\n\n\n1.2 迭代器对象迭代器对象就是对迭代器的实例化\n1. __next__方法可以通过反复执行__next__方法获取其中的值，有两种调用方式：\n123obj1 = Exa()v1 = obj1.__next()v1 = next(obj1)   # 通过内置函数\n\n其中，Exa是迭代器的类名，obj1是对迭代器实例化的对象\n2. for循环可以对迭代器对象进行for循环\n123obj2 = Exa()for o in obj2:    print(o)\n\n过程：\n① 首先会执行迭代器对象中的__iter__方法并获取返回值（返回self）\n②然后会反复执行next(obj2)\n③直到没有数据了，抛出异常\n2. 生成器定义一个函数，函数中只要有yield，这个函数就被称为生成器函数。\n123def func():    a = [0, 1, 2, 3, 4]    yield a \n\n\n\n``` ：就是生成器对象（内部是根据生成器类generator创建的对象）。12345678910111213141516171819202122232425262728生成器类的内部也声明了：```__iter__```、```__next__``` 方法。如果按照迭代器的定义来看，**生成器也可以认为是一种特殊的迭代器****且生成器可以使用next方法，可以进行for循环**# 3. 可迭代对象如果一个类中有```__iter__```方法且返回一个迭代器对象 ，则我们称以这个类创建的对象为可迭代对象。```pythonclass Foo(object):\tdef __iter__(self):\t\treturn 迭代器对象（生成器对象）\t\tobj = Foo()   # obj 是可迭代对象# 可迭代对象可以使用for来进行循环，在循环的内部其实是先执行__iter__方法，获取其迭代器对象，然后再在内部执行这个迭代器对象的next功能，逐步取值。for item in obj:\tpass\n\n\n\n12v1 = range(100)  # 返回可迭代对象dir(v1)  # 输出中包含 __iter__方法，但无__next__方法\n\n列表、元组、字典、集合常见的数据类型全是可迭代对象\n4. 补充知识点4.1 自定义一个range4.1.1 基于可迭代对象实现123456789101112131415161718192021222324252627282930313233343536373839class IterRange(object):   # 迭代器    def __init__(self, num):        self.num = num        self.counter = -1            def __iter__(self):        return self        def __next__(self):        self.counter += 1        if self.counter == self.num:            raise StopIteration()        return self.counter    class Irange(object):   # 可迭代对象    def __init__(self, max_num):        self.max_num = max_num            def __iter__(self):        return IterRange(self.max_num)        # for循环 Irange    for i in Irange(10):    print(i)    # 输出：0123456789\n\n\n\n4.1.2 基于生成器实现123456789101112class Irange(object):    def __init__(self, max_num):        self.max_num = max_num        def __iter__(self):        counter = 0        while counter &lt; self.max_num:            yield counter            counter += 1    for i in Irange(10):    print(i)\n\n\n\n4.2 是可迭代对象的常见数据类型123v1 = list([1, 2, 3, 4])# v1是一个可迭代对象，因为在列表中声明了一个__iter__方法，且返回一个迭代器对象dir(v1) # 可用此验证\n\n列表、元组、字典、集合常见的数据类型全是可迭代对象\n4.3 python中判断类型1234567891011121314from collections.abc import Iterator, Iterable# Iterable:判断是否有__iter__方法，且返回迭代器# Iterator:判断是否有__iter__和__next__方法v1 = [1, 2, 3, 4]print(isinstance(v1, Iterable))  # Trueprint(isinstance(v1, Iterator))  # False# v1是可迭代对象，其中 有__iter__，无__next__v2 = v1.__iter__()print(isinstance(v2, Iterable))  # Trueprint(isinstance(v2, Iterator))  # True# v2是迭代器对象，其中 有__iter__，有__next__\n\n\n\niterable：返回的可能是可迭代对象，也可能是迭代器对象\niterator：返回的是迭代器对象\n5.几段应用知识点的代码结合例子加深理解\n5.1 例1：12345678910def test():    for i in range(4):        yield i         g = test()g1 = (i for i in g)g2 = (i for i in g1)g3 = (i for i in list(g1))print(list(g1))print(list(g2))\n\n庖丁解牛：\n","dateCreated":"2022-03-15T21:35:55+08:00","dateModified":"2022-03-16T09:40:03+08:00","datePublished":"2022-03-15T21:35:55+08:00","description":"有关迭代器、迭代器对象、生成器、可迭代对象的知识点的学习总结、","headline":"迭代器、生成器、可迭代对象知识点总结","image":["wallhaven.jpg","wallhaven.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/","keywords":"创作中, 小知识点","thumbnailUrl":"wallhaven.jpg"}</script>
     <meta name="description" content="有关迭代器、迭代器对象、生成器、可迭代对象的知识点的学习总结、">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="迭代器、生成器、可迭代对象知识点总结">
@@ -22,7 +22,7 @@
 <meta property="og:description" content="有关迭代器、迭代器对象、生成器、可迭代对象的知识点的学习总结、">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-15T13:35:55.000Z">
-<meta property="article:modified_time" content="2022-03-15T14:10:50.131Z">
+<meta property="article:modified_time" content="2022-03-16T01:40:03.424Z">
 <meta property="article:author" content="Abilish">
 <meta property="article:tag" content="创作中">
 <meta property="article:tag" content="小知识点">
@@ -35,6 +35,12 @@
         <meta property="og:image" content="http://example.com/assets/images/avatar.png"/>
     
     
+        <meta property="og:image" content="http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/wallhaven.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/wallhaven.jpg"/>
+    
+    
+        <meta property="og:image" content="http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/wallhaven.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/wallhaven.jpg"/>
     
     
     <!--STYLES-->
@@ -46,8 +52,6 @@
 
     
 
-    
-        
     
 </head>
 
@@ -241,36 +245,28 @@
 </nav>
 
             
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--partial"
+             style="background-image:url('/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/wallhaven.jpg');"
+             data-behavior="4">
+            
+        </div>
+
             <div id="main" data-behavior="4"
-                 class="
-                        hasCoverMetaIn
+                 class="hasCover
+                        hasCoverMetaOut
                         ">
                 
 <article class="post">
     
     
-        <div class="post-header main-content-wrap text-left">
+        <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title">
             迭代器、生成器、可迭代对象知识点总结
         </h1>
     
-    
-        <div class="post-meta">
-    <time datetime="2022-03-15T21:35:55+08:00">
-	
-		    3月 15, 2022
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a>, <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0/Python/">Python</a>
-
-
-    
-</div>
-
     
 </div>
 
@@ -280,25 +276,27 @@
             <p>有关迭代器、迭代器对象、生成器、可迭代对象的知识点的学习总结、</p>
 <span id="more"></span>
 
-<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-text">1. 迭代器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">1.1迭代器的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.2 迭代器对象</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%94%9F%E6%88%90%E5%99%A8"><span class="toc-text">2. 生成器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><span class="toc-text">3. 可迭代对象</span></a></li></ol>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-text">1. 迭代器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-text">1.1迭代器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.2 迭代器对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-next-%E6%96%B9%E6%B3%95"><span class="toc-text">1. __next__方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-for%E5%BE%AA%E7%8E%AF"><span class="toc-text">2. for循环</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%94%9F%E6%88%90%E5%99%A8"><span class="toc-text">2. 生成器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-text">4. 补充知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AArange"><span class="toc-text">4.1 自定义一个range</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-%E5%9F%BA%E4%BA%8E%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0"><span class="toc-text">4.1.1 基于可迭代对象实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-2-%E5%9F%BA%E4%BA%8E%E7%94%9F%E6%88%90%E5%99%A8%E5%AE%9E%E7%8E%B0"><span class="toc-text">4.1.2 基于生成器实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%98%AF%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">4.2 是可迭代对象的常见数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-python%E4%B8%AD%E5%88%A4%E6%96%AD%E7%B1%BB%E5%9E%8B"><span class="toc-text">4.3 python中判断类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E5%87%A0%E6%AE%B5%E5%BA%94%E7%94%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-text">5.几段应用知识点的代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E4%BE%8B1%EF%BC%9A"><span class="toc-text">5.1 例1：</span></a></li></ol></li></ol>
 
 
 
-<h1 id="1-迭代器"><a href="#1-迭代器" class="headerlink" title="1. 迭代器"></a>1. 迭代器</h1><h2 id="1-1迭代器的定义"><a href="#1-1迭代器的定义" class="headerlink" title="1.1迭代器的定义"></a><strong>1.1迭代器的定义</strong></h2><ol>
+<h1 id="1-迭代器"><a href="#1-迭代器" class="headerlink" title="1. 迭代器"></a>1. 迭代器</h1><h2 id="1-1迭代器"><a href="#1-1迭代器" class="headerlink" title="1.1迭代器"></a><strong>1.1迭代器</strong></h2><ol>
 <li>类中定义了<code>__iter__</code>、<code>__next__</code>两个方法</li>
 <li><code>__iter__</code>方法返回self</li>
-<li><code>__next__</code>方法返回下一个数据，如果没有数据了，则需要抛出一个Stopiteration的异常</li>
+<li><code>__next__</code>方法返回下一个数据，如果没有数据了，则需要抛出一个StopIteration的异常</li>
 </ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Exa</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.counter = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        self.counter += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> self.counter == <span class="number">5</span>:</span><br><span class="line">            <span class="keyword">raise</span> StopIteration()</span><br><span class="line">        <span class="keyword">return</span> self.counter</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <h2 id="1-2-迭代器对象"><a href="#1-2-迭代器对象" class="headerlink" title="1.2 迭代器对象"></a>1.2 迭代器对象</h2><p>迭代器对象就是对迭代器的实例化</p>
-<ol>
-<li>可以通过反复执行<code>__next__</code>方法获取其中的值，有两种调用方式：</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">obj1 = Exa()</span><br><span class="line">v1 = obj1.__<span class="built_in">next</span>()</span><br><span class="line">v1 = <span class="built_in">next</span>(obj1)</span><br></pre></td></tr></table></figure>
+<h3 id="1-next-方法"><a href="#1-next-方法" class="headerlink" title="1. __next__方法"></a>1. <code>__next__</code>方法</h3><p>可以通过反复执行<code>__next__</code>方法获取其中的值，有两种调用方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">obj1 = Exa()</span><br><span class="line">v1 = obj1.__<span class="built_in">next</span>()</span><br><span class="line">v1 = <span class="built_in">next</span>(obj1)   <span class="comment"># 通过内置函数</span></span><br></pre></td></tr></table></figure>
 
 <p>其中，Exa是迭代器的类名，obj1是对迭代器实例化的对象</p>
-<ol start="2">
-<li>可以对迭代器对象进行for循环</li>
-</ol>
+<h3 id="2-for循环"><a href="#2-for循环" class="headerlink" title="2. for循环"></a>2. for循环</h3><p>可以对迭代器对象进行for循环</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">obj2 = Exa()</span><br><span class="line"><span class="keyword">for</span> o <span class="keyword">in</span> obj2:</span><br><span class="line">    <span class="built_in">print</span>(o)</span><br></pre></td></tr></table></figure>
 
 <p><strong>过程</strong>：</p>
@@ -306,16 +304,38 @@
 <p>②然后会反复执行next(obj2)</p>
 <p>③直到没有数据了，抛出异常</p>
 <h1 id="2-生成器"><a href="#2-生成器" class="headerlink" title="2. 生成器"></a>2. 生成器</h1><p>定义一个函数，函数中只要有<strong>yield</strong>，这个函数就被称为生成器函数。</p>
-<p>生成器函数（） 就是生成器对象（内部是根据生成器类generator创建的对象），生成器类的内部也声明了：<code>__iter__</code>、<code>__next__</code> 方法。</p>
-<p>如果按照迭代器的规定来看，生成器也可以认为是一种特殊的迭代器</p>
-<h1 id="3-可迭代对象"><a href="#3-可迭代对象" class="headerlink" title="3. 可迭代对象"></a>3. 可迭代对象</h1><p>如果一个类中有<code>__iter__</code>方法且返回一个迭代器对象 ，则我们称以这个类创建的对象为可迭代对象。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Foo</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> 迭代器对象（生成器对象）</span><br><span class="line">		</span><br><span class="line">obj = Foo()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可迭代对象是可以使用for来进行循环，在循环的内部其实是先执行__iter__方法，获取其迭代器对象，然后再在内部执行这个迭代器对象的next功能，逐步取值。</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> obj:</span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>():</span><br><span class="line">    a = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">    <span class="keyword">yield</span> a </span><br></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">range</span>(<span class="number">100</span>)  <span class="comment"># 返回可迭代对象</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><figcaption><span>``` ：就是生成器对象（内部是根据生成器类generator创建的对象）。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">生成器类的内部也声明了：```__iter__```、```__next__``` 方法。</span><br><span class="line"></span><br><span class="line">如果按照迭代器的定义来看，**生成器也可以认为是一种特殊的迭代器**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">**且生成器可以使用next方法，可以进行for循环**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 3. 可迭代对象</span><br><span class="line"></span><br><span class="line">如果一个类中有```__iter__```方法且返回一个迭代器对象 ，则我们称以这个类创建的对象为可迭代对象。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">class Foo(object):</span><br><span class="line"></span><br><span class="line">	def __iter__(self):</span><br><span class="line">		return 迭代器对象（生成器对象）</span><br><span class="line">		</span><br><span class="line">obj = Foo()   # obj 是可迭代对象</span><br><span class="line"></span><br><span class="line"># 可迭代对象可以使用for来进行循环，在循环的内部其实是先执行__iter__方法，获取其迭代器对象，然后再在内部执行这个迭代器对象的next功能，逐步取值。</span><br><span class="line">for item in obj:</span><br><span class="line">	pass</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">v1 = <span class="built_in">range</span>(<span class="number">100</span>)  <span class="comment"># 返回可迭代对象</span></span><br><span class="line"><span class="built_in">dir</span>(v1)  <span class="comment"># 输出中包含 __iter__方法，但无__next__方法</span></span><br></pre></td></tr></table></figure>
 
 <p>列表、元组、字典、集合常见的数据类型全是可迭代对象</p>
-<p>iterable：判断<code>__iter__</code> ，返回的可能是可迭代对象，也可能是迭代器</p>
-<p>iterator：判断<code>__iter__</code> 、<code>__next__</code> ，返回的是迭代器</p>
+<h1 id="4-补充知识点"><a href="#4-补充知识点" class="headerlink" title="4. 补充知识点"></a>4. 补充知识点</h1><h2 id="4-1-自定义一个range"><a href="#4-1-自定义一个range" class="headerlink" title="4.1 自定义一个range"></a>4.1 自定义一个range</h2><h3 id="4-1-1-基于可迭代对象实现"><a href="#4-1-1-基于可迭代对象实现" class="headerlink" title="4.1.1 基于可迭代对象实现"></a>4.1.1 基于可迭代对象实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">IterRange</span>(<span class="title class_ inherited__">object</span>):   <span class="comment"># 迭代器</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, num</span>):</span><br><span class="line">        self.num = num</span><br><span class="line">        self.counter = -<span class="number">1</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        self.counter += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> self.counter == self.num:</span><br><span class="line">            <span class="keyword">raise</span> StopIteration()</span><br><span class="line">        <span class="keyword">return</span> self.counter</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Irange</span>(<span class="title class_ inherited__">object</span>):   <span class="comment"># 可迭代对象</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, max_num</span>):</span><br><span class="line">        self.max_num = max_num</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> IterRange(self.max_num)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="comment"># for循环 Irange    </span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> Irange(<span class="number">10</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出：</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-1-2-基于生成器实现"><a href="#4-1-2-基于生成器实现" class="headerlink" title="4.1.2 基于生成器实现"></a>4.1.2 基于生成器实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Irange</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, max_num</span>):</span><br><span class="line">        self.max_num = max_num</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        counter = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> counter &lt; self.max_num:</span><br><span class="line">            <span class="keyword">yield</span> counter</span><br><span class="line">            counter += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> Irange(<span class="number">10</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-2-是可迭代对象的常见数据类型"><a href="#4-2-是可迭代对象的常见数据类型" class="headerlink" title="4.2 是可迭代对象的常见数据类型"></a>4.2 是可迭代对象的常见数据类型</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">v1 = <span class="built_in">list</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="comment"># v1是一个可迭代对象，因为在列表中声明了一个__iter__方法，且返回一个迭代器对象</span></span><br><span class="line"><span class="built_in">dir</span>(v1) <span class="comment"># 可用此验证</span></span><br></pre></td></tr></table></figure>
+
+<p>列表、元组、字典、集合常见的数据类型全是可迭代对象</p>
+<h2 id="4-3-python中判断类型"><a href="#4-3-python中判断类型" class="headerlink" title="4.3 python中判断类型"></a>4.3 python中判断类型</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterator, Iterable</span><br><span class="line"></span><br><span class="line"><span class="comment"># Iterable:判断是否有__iter__方法，且返回迭代器</span></span><br><span class="line"><span class="comment"># Iterator:判断是否有__iter__和__next__方法</span></span><br><span class="line"></span><br><span class="line">v1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">isinstance</span>(v1, Iterable))  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">isinstance</span>(v1, Iterator))  <span class="comment"># False</span></span><br><span class="line"><span class="comment"># v1是可迭代对象，其中 有__iter__，无__next__</span></span><br><span class="line"></span><br><span class="line">v2 = v1.__iter__()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">isinstance</span>(v2, Iterable))  <span class="comment"># True</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">isinstance</span>(v2, Iterator))  <span class="comment"># True</span></span><br><span class="line"><span class="comment"># v2是迭代器对象，其中 有__iter__，有__next__</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>iterable：返回的可能是可迭代对象，也可能是迭代器对象</p>
+<p>iterator：返回的是迭代器对象</p>
+<h1 id="5-几段应用知识点的代码"><a href="#5-几段应用知识点的代码" class="headerlink" title="5.几段应用知识点的代码"></a>5.几段应用知识点的代码</h1><p>结合例子加深理解</p>
+<h2 id="5-1-例1："><a href="#5-1-例1：" class="headerlink" title="5.1 例1："></a>5.1 例1：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        <span class="keyword">yield</span> i </span><br><span class="line">        </span><br><span class="line">g = test()</span><br><span class="line">g1 = (i <span class="keyword">for</span> i <span class="keyword">in</span> g)</span><br><span class="line">g2 = (i <span class="keyword">for</span> i <span class="keyword">in</span> g1)</span><br><span class="line">g3 = (i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">list</span>(g1))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(g1))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(g2))</span><br></pre></td></tr></table></figure>
+
+<p><strong>庖丁解牛</strong>：</p>
 
             
 
@@ -332,103 +352,6 @@
             </div>
         
         
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/13/%E7%94%B5%E5%BD%B1-%E6%88%91%E6%98%AF%E8%B0%81%EF%BC%9A%E6%B2%A1%E6%9C%89%E7%BB%9D%E5%AF%B9%E5%AE%89%E5%85%A8%E7%9A%84%E7%B3%BB%E7%BB%9F/"
-                    data-tooltip="【电影】《我是谁：没有绝对安全的系统》反转反转再反转，9.8分神作！"
-                    aria-label="下一篇: 【电影】《我是谁：没有绝对安全的系统》反转反转再反转，9.8分神作！"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                    title="分享到 Facebook"
-                    aria-label="分享到 Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                    title="分享到 Twitter"
-                    aria-label="分享到 Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                    title="分享到 Google+"
-                    aria-label="分享到 Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-        
-        
-            
         
     </div>
 </article>
@@ -442,151 +365,6 @@
 </footer>
 
             </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/13/%E7%94%B5%E5%BD%B1-%E6%88%91%E6%98%AF%E8%B0%81%EF%BC%9A%E6%B2%A1%E6%9C%89%E7%BB%9D%E5%AF%B9%E5%AE%89%E5%85%A8%E7%9A%84%E7%B3%BB%E7%BB%9F/"
-                    data-tooltip="【电影】《我是谁：没有绝对安全的系统》反转反转再反转，9.8分神作！"
-                    aria-label="下一篇: 【电影】《我是谁：没有绝对安全的系统》反转反转再反转，9.8分神作！"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                    title="分享到 Facebook"
-                    aria-label="分享到 Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                    title="分享到 Twitter"
-                    aria-label="分享到 Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                    title="分享到 Google+"
-                    aria-label="分享到 Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                
-    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-        <i id="btn-close-shareoptions" class="fa fa-times"></i>
-        <ul class="share-options">
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                        aria-label="分享到 Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                        aria-label="分享到 Twitter"
-                    >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=http://example.com/2022/03/15/%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"
-                        aria-label="分享到 Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                    </a>
-                </li>
-            
-        </ul>
-    </div>
-
-
             
         </div>
         
@@ -613,7 +391,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#x73;&#102;&#x79;&#95;&#109;&#x78;&#x40;&#x31;&#x36;&#51;&#x2e;&#x63;&#111;&#x6d;">&#x73;&#102;&#x79;&#95;&#109;&#x78;&#x40;&#x31;&#x36;&#51;&#x2e;&#x63;&#111;&#x6d;</a></p>
+                <p><a href="mailto:&#x73;&#x66;&#x79;&#95;&#109;&#120;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#x73;&#x66;&#x79;&#95;&#109;&#120;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></p>
 
             </div>
         
@@ -636,8 +414,6 @@
 
 <!--SCRIPTS END-->
 
-
-    
 
 
 
