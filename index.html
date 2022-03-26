@@ -240,6 +240,151 @@
                 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
+                            aria-label=": appium知识点笔记"
+                        >
+                            appium知识点笔记
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2022-03-26T15:26:07+08:00">
+	
+		    3月 26, 2022
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>appium知识点笔记系统整理、学习总结</p>
+<h1 id="1-Appium是什么"><a href="#1-Appium是什么" class="headerlink" title="1. Appium是什么"></a>1. Appium是什么</h1><p>Appium 是移动端的自动化测试框架，可用于测试<strong>原生应用</strong>（能安装，即从应用程序市场中下载）、<strong>移动网页应用</strong>（浏览器）及<strong>混合应用</strong>（原生应用中嵌入web）。</p>
+<p>可以用在iOS和Android操作系统上，跨语言，跨平台（iOS、Android，Windows、Mac）。</p>
+<h2 id="Appium环境"><a href="#Appium环境" class="headerlink" title="Appium环境"></a>Appium环境</h2><p>Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client</p>
+<h1 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2. 常用命令"></a>2. 常用命令</h1><h2 id="2-1-常用adb命令"><a href="#2-1-常用adb命令" class="headerlink" title="2.1 常用adb命令"></a>2.1 常用adb命令</h2><p>查看当前设备：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-1-1-获取app的信息"><a href="#2-1-1-获取app的信息" class="headerlink" title="2.1.1 获取app的信息"></a>2.1.1 获取app的信息</h3><ul>
+<li>app信息：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 获取当前界面元素</span><br><span class="line">adb shell dumpsys activity top</span><br><span class="line"></span><br><span class="line"># 获取任务列表(待补充)</span><br><span class="line">adb shell dumpsys actity activities</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>app入口（获取包名，activity名）：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb logcat |grep -i displayed  			# Linux</span><br><span class="line">adb shell &quot;logcat |grep -i displayed&quot;   # Win</span><br><span class="line">adb logcat |findstr -i displayed		# Win</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动应用</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W -n 包名/activity名 -S</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="2-2-appium常用设置"><a href="#2-2-appium常用设置" class="headerlink" title="2.2 appium常用设置"></a>2.2 appium常用设置</h2><p>中文版：<a target="_blank" rel="noopener" href="https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md">https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md</a></p>
+<p>英文版：<a target="_blank" rel="noopener" href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md">https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app apk地址</span><br><span class="line">appPackage # 包名</span><br><span class="line">appActivity # Activity名</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>“noReset” : True</code>：在当前 session 下不会重置应用的状态。默认值为 false。</p>
+<p>适用情景：弹框、登录等</p>
+<p><code>fullReset</code>：Stop app, clear app data and uninstall apk before session starts and after test</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;skipDeviceInitialization&quot;   true or false</span><br></pre></td></tr></table></figure>
+
+<p>跳过安装、权限设置等操作，提升性能，加快速度</p>
+<p><code>“udid”</code>  多设备测试时启用</p>
+<p><code>&quot;dontStopAppOnReset&quot;</code>：首次启动的时候</p>
+<p><code>unicodeKeyboard   resetKeyboard</code>是否输入非英文之外的语言并在测试完成后重置输入法</p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2022/03/24/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                            aria-label=": python装饰器学习笔记"
+                        >
+                            python装饰器学习笔记
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2022-03-24T11:38:02+08:00">
+	
+		    3月 24, 2022
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2022/03/24/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-left">
         <div class="postShorten-wrap">
             
@@ -702,119 +847,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2022/03/03/Hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/"
-                            aria-label=": Hexo博客插入图片方法汇总"
-                        >
-                            Hexo博客插入图片方法汇总
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2022-03-03T17:17:16+08:00">
-	
-		    3月 03, 2022
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>, <a class="category-link" href="/categories/%E6%8A%80%E6%9C%AF/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E7%AB%99/">博客建站</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>在用hexo搭建网站的过程中发现插入图片有很多坑，有时在文章页面无法成功插入，有时在首页无法成功显示……所以开篇博文，边写博客边在这篇博文里总结一下各种方法</p>
-                    
-                        <a
-                            href="/2022/03/03/Hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Hexo博客插入图片方法汇总"
-                        >
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/"
-                            aria-label=": MySQL知识笔记"
-                        >
-                            MySQL知识笔记
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2022-03-02T11:02:38+08:00">
-	
-		    3月 02, 2022
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a>, <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0/MySQL/">MySQL</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><strong>简介</strong> ：这篇文章以我的MySQL学习笔记为主线，书籍、网络资源等为补充，对基础+高级知识的梳理、总结。并会不断地更新完善。<br>主要目的是希望通过总结笔记形成自己的知识树。<br>同时也希望能够方便大家的学习😀<br>⚠ 如有错误的地方，请邮箱联系我，留言系统待施工中😭</p>
-<p><strong>目标</strong>：力求做到知识点叙述简单易懂，命令查阅方便。</p>
-                    
-                        <a
-                            href="/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": MySQL知识笔记"
-                        >
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-            <a
-                href="/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/"
-                aria-label=": MySQL知识笔记"
-            >
-                <div class="postShorten-thumbnailimg">
-                    <img alt="" src="http://example.com/2022/03/02/MySQL%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/mount.jpg"/>
-                </div>
-            </a>
-            
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -870,7 +902,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#x73;&#x66;&#121;&#95;&#109;&#x78;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;">&#x73;&#x66;&#121;&#95;&#109;&#x78;&#64;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#x6d;</a></p>
+                <p><a href="mailto:&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;">&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;</a></p>
 
             </div>
         
