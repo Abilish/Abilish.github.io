@@ -263,70 +263,27 @@
     	
     </time>
     
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a>, <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%B5%8B%E8%AF%95/">测试</a>
+
+
+    
 </div>
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>appium知识点笔记系统整理、学习总结</p>
-<h1 id="1-Appium是什么"><a href="#1-Appium是什么" class="headerlink" title="1. Appium是什么"></a>1. Appium是什么</h1><p>Appium 是移动端的自动化测试框架，可用于测试<strong>原生应用</strong>（能安装，即从应用程序市场中下载）、<strong>移动网页应用</strong>（浏览器）及<strong>混合应用</strong>（原生应用中嵌入web）。</p>
-<p>可以用在iOS和Android操作系统上，跨语言，跨平台（iOS、Android，Windows、Mac）。</p>
-<h2 id="Appium环境"><a href="#Appium环境" class="headerlink" title="Appium环境"></a>Appium环境</h2><p>Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client</p>
-<h1 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2. 常用命令"></a>2. 常用命令</h1><h2 id="2-1-常用adb命令"><a href="#2-1-常用adb命令" class="headerlink" title="2.1 常用adb命令"></a>2.1 常用adb命令</h2><p>查看当前设备：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="2-1-1-获取app的信息"><a href="#2-1-1-获取app的信息" class="headerlink" title="2.1.1 获取app的信息"></a>2.1.1 获取app的信息</h3><ul>
-<li>app信息：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 获取当前界面元素</span><br><span class="line">adb shell dumpsys activity top</span><br><span class="line"></span><br><span class="line"># 获取任务列表(待补充)</span><br><span class="line">adb shell dumpsys actity activities</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>app入口（获取包名，activity名）：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb logcat |grep -i displayed  			# Linux</span><br><span class="line">adb shell &quot;logcat |grep -i displayed&quot;   # Win</span><br><span class="line">adb logcat |findstr -i displayed		# Win</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>启动应用</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W -n 包名/activity名 -S</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="2-2-appium常用设置"><a href="#2-2-appium常用设置" class="headerlink" title="2.2 appium常用设置"></a>2.2 appium常用设置</h2><p>中文版：<a target="_blank" rel="noopener" href="https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md">https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md</a></p>
-<p>英文版：<a target="_blank" rel="noopener" href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md">https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app apk地址</span><br><span class="line">appPackage # 包名</span><br><span class="line">appActivity # Activity名</span><br></pre></td></tr></table></figure>
-
-
-
-<p><code>“noReset” : True</code>：在当前 session 下不会重置应用的状态。默认值为 false。</p>
-<p>适用情景：弹框、登录等</p>
-<p><code>fullReset</code>：Stop app, clear app data and uninstall apk before session starts and after test</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;skipDeviceInitialization&quot;   true or false</span><br></pre></td></tr></table></figure>
-
-<p>跳过安装、权限设置等操作，提升性能，加快速度</p>
-<p><code>“udid”</code>  多设备测试时启用</p>
-<p><code>&quot;dontStopAppOnReset&quot;</code>：首次启动的时候</p>
-<p><code>unicodeKeyboard   resetKeyboard</code>是否输入非英文之外的语言并在测试完成后重置输入法</p>
-
                     
+                        <a
+                            href="/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": appium知识点笔记"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -386,7 +343,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-left">
+    <article class="postShorten postShorten--thumbnailimg-bottom">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -494,7 +451,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-left">
+    <article class="postShorten postShorten--thumbnailimg-bottom">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -904,7 +861,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;">&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;</a></p>
+                <p><a href="mailto:&#x73;&#102;&#121;&#x5f;&#x6d;&#x78;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;">&#x73;&#102;&#121;&#x5f;&#x6d;&#x78;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
             </div>
         

@@ -13,17 +13,18 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"appium知识点笔记系统整理、学习总结\n1. Appium是什么Appium 是移动端的自动化测试框架，可用于测试原生应用（能安装，即从应用程序市场中下载）、移动网页应用（浏览器）及混合应用（原生应用中嵌入web）。\n可以用在iOS和Android操作系统上，跨语言，跨平台（iOS、Android，Windows、Mac）。\nAppium环境Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client\n2. 常用命令2.1 常用adb命令查看当前设备：\n1adb devices\n\n\n\n2.1.1 获取app的信息\napp信息：\n\n12345# 获取当前界面元素adb shell dumpsys activity top# 获取任务列表(待补充)adb shell dumpsys actity activities\n\n\napp入口（获取包名，activity名）：\n\n123adb logcat |grep -i displayed  \t\t\t# Linuxadb shell &quot;logcat |grep -i displayed&quot;   # Winadb logcat |findstr -i displayed\t\t# Win\n\n\n启动应用\n\n1adb shell am start -W -n 包名/activity名 -S\n\n\n\n\n\n2.2 appium常用设置中文版：https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md\n英文版：https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md\n123app apk地址appPackage # 包名appActivity # Activity名\n\n\n\n“noReset” : True：在当前 session 下不会重置应用的状态。默认值为 false。\n适用情景：弹框、登录等\nfullReset：Stop app, clear app data and uninstall apk before session starts and after test\n1&quot;skipDeviceInitialization&quot;   true or false\n\n跳过安装、权限设置等操作，提升性能，加快速度\n“udid”  多设备测试时启用\n&quot;dontStopAppOnReset&quot;：首次启动的时候\nunicodeKeyboard   resetKeyboard是否输入非英文之外的语言并在测试完成后重置输入法\n","dateCreated":"2022-03-26T15:26:07+08:00","dateModified":"2022-03-26T18:05:02+08:00","datePublished":"2022-03-26T15:26:07+08:00","description":"","headline":"appium知识点笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"}</script>
-    <meta name="description" content="appium知识点笔记系统整理、学习总结 1. Appium是什么Appium 是移动端的自动化测试框架，可用于测试原生应用（能安装，即从应用程序市场中下载）、移动网页应用（浏览器）及混合应用（原生应用中嵌入web）。 可以用在iOS和Android操作系统上，跨语言，跨平台（iOS、Android，Windows、Mac）。 Appium环境Java 1.8、Android sdk、Node j">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n1. Appium是什么Appium 是移动端的自动化测试框架，可用于测试原生应用（能安装，即从应用程序市场中下载）、移动网页应用（浏览器）及混合应用（原生应用中嵌入web）。\n可以用在iOS和Android操作系统上，跨语言，跨平台（iOS、Android，Windows、Mac）。\nAppium环境Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client\n2. 常用命令2.1 常用adb命令查看当前设备：\n1adb devices\n\n\n\n2.1.1 获取app的信息\napp信息：\n\n12345# 获取当前界面元素adb shell dumpsys activity top# 获取任务列表(待补充)adb shell dumpsys actity activities\n\n\napp入口（获取包名，activity名）：\n\n123adb logcat |grep -i displayed  \t\t\t# Linuxadb shell &quot;logcat |grep -i displayed&quot;   # Winadb logcat |findstr -i displayed\t\t# Win\n\n\n启动应用\n\n1adb shell am start -W -n 包名/activity名 -S\n\n\n\n\n\n2.2 appium常用设置中文版：https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md\n英文版：https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md\n123app apk地址appPackage # 包名appActivity # Activity名\n\n\n\n“noReset” : True：在当前 session 下不会重置应用的状态。默认值为 false。\n适用情景：弹框、登录等\nfullReset：Stop app, clear app data and uninstall apk before session starts and after test\n1&quot;skipDeviceInitialization&quot;   true or false\n\n跳过安装、权限设置等操作，提升性能，加快速度\n“udid”  多设备测试时启用\n&quot;dontStopAppOnReset&quot;：首次启动的时候\nunicodeKeyboard   resetKeyboard是否输入非英文之外的语言并在测试完成后重置输入法","dateCreated":"2022-03-26T15:26:07+08:00","dateModified":"2022-03-26T18:13:35+08:00","datePublished":"2022-03-26T15:26:07+08:00","description":"appium知识点笔记系统整理、学习总结","headline":"appium知识点笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/","keywords":"创作中"}</script>
+    <meta name="description" content="appium知识点笔记系统整理、学习总结">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="appium知识点笔记">
 <meta property="og:url" content="http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Do">
-<meta property="og:description" content="appium知识点笔记系统整理、学习总结 1. Appium是什么Appium 是移动端的自动化测试框架，可用于测试原生应用（能安装，即从应用程序市场中下载）、移动网页应用（浏览器）及混合应用（原生应用中嵌入web）。 可以用在iOS和Android操作系统上，跨语言，跨平台（iOS、Android，Windows、Mac）。 Appium环境Java 1.8、Android sdk、Node j">
+<meta property="og:description" content="appium知识点笔记系统整理、学习总结">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-26T07:26:07.000Z">
-<meta property="article:modified_time" content="2022-03-26T10:05:02.212Z">
+<meta property="article:modified_time" content="2022-03-26T10:13:35.722Z">
 <meta property="article:author" content="Abilish">
+<meta property="article:tag" content="创作中">
 <meta name="twitter:card" content="summary">
     
     
@@ -44,8 +45,6 @@
 
     
 
-    
-        
     
 </head>
 
@@ -247,29 +246,22 @@
 <article class="post">
     
     
-        <div class="post-header main-content-wrap text-left">
+        <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title">
             appium知识点笔记
         </h1>
     
     
-        <div class="post-meta">
-    <time datetime="2022-03-26T15:26:07+08:00">
-	
-		    3月 26, 2022
-    	
-    </time>
-    
-</div>
-
-    
 </div>
 
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>appium知识点笔记系统整理、学习总结</p>
+            <!-- excerpt -->
+
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Appium%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">1. Appium是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Appium%E7%8E%AF%E5%A2%83"><span class="toc-text">Appium环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%B8%B8%E7%94%A8adb%E5%91%BD%E4%BB%A4"><span class="toc-text">2.1 常用adb命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E8%8E%B7%E5%8F%96app%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="toc-text">2.1.1 获取app的信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-appium%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE"><span class="toc-text">2.2 appium常用设置</span></a></li></ol></li></ol>
+
 <h1 id="1-Appium是什么"><a href="#1-Appium是什么" class="headerlink" title="1. Appium是什么"></a>1. Appium是什么</h1><p>Appium 是移动端的自动化测试框架，可用于测试<strong>原生应用</strong>（能安装，即从应用程序市场中下载）、<strong>移动网页应用</strong>（浏览器）及<strong>混合应用</strong>（原生应用中嵌入web）。</p>
 <p>可以用在iOS和Android操作系统上，跨语言，跨平台（iOS、Android，Windows、Mac）。</p>
 <h2 id="Appium环境"><a href="#Appium环境" class="headerlink" title="Appium环境"></a>Appium环境</h2><p>Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client</p>
@@ -312,7 +304,6 @@
 <p><code>“udid”</code>  多设备测试时启用</p>
 <p><code>&quot;dontStopAppOnReset&quot;</code>：首次启动的时候</p>
 <p><code>unicodeKeyboard   resetKeyboard</code>是否输入非英文之外的语言并在测试完成后重置输入法</p>
-
             
 
 
@@ -320,104 +311,14 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-        
-            <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
                 
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/24/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-                    data-tooltip="python装饰器学习笔记"
-                    aria-label="下一篇: python装饰器学习笔记"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                    title="分享到 Facebook"
-                    aria-label="分享到 Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                    title="分享到 Twitter"
-                    aria-label="分享到 Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                    title="分享到 Google+"
-                    aria-label="分享到 Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%88%9B%E4%BD%9C%E4%B8%AD/" rel="tag">创作中</a>
 
-
+            </div>
         
         
-            
         
     </div>
 </article>
@@ -431,151 +332,6 @@
 </footer>
 
             </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
-                    </a>
-            </li>
-            <li class="post-action">
-                
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/24/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-                    data-tooltip="python装饰器学习笔记"
-                    aria-label="下一篇: python装饰器学习笔记"
-                >
-                    
-                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a
-                class="post-action-btn btn btn--default btn-open-shareoptions"
-                href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
-            >
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </a>
-        </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                    title="分享到 Facebook"
-                    aria-label="分享到 Facebook"
-                >
-                    <i class="fab fa-facebook" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                    title="分享到 Twitter"
-                    aria-label="分享到 Twitter"
-                >
-                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-            
-            
-            <li class="post-action hide-xs">
-                <a
-                    class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                    title="分享到 Google+"
-                    aria-label="分享到 Google+"
-                >
-                    <i class="fab fa-google-plus" aria-hidden="true"></i>
-                </a>
-            </li>
-        
-        
-            
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
-            
-                <i class="fa fa-list" aria-hidden="true"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                
-    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-        <i id="btn-close-shareoptions" class="fa fa-times"></i>
-        <ul class="share-options">
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                        aria-label="分享到 Facebook"
-                    >
-                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                        aria-label="分享到 Twitter"
-                    >
-                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                    </a>
-                </li>
-            
-                
-                
-                <li class="share-option">
-                    <a
-                        class="share-option-btn"
-                        target="new"
-                        href="https://plus.google.com/share?url=http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"
-                        aria-label="分享到 Google+"
-                    >
-                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                    </a>
-                </li>
-            
-        </ul>
-    </div>
-
-
             
         </div>
         
@@ -602,7 +358,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;">&#115;&#102;&#x79;&#x5f;&#x6d;&#x78;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#109;</a></p>
+                <p><a href="mailto:&#x73;&#102;&#121;&#x5f;&#x6d;&#x78;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;">&#x73;&#102;&#121;&#x5f;&#x6d;&#x78;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
             </div>
         
@@ -625,8 +381,6 @@
 
 <!--SCRIPTS END-->
 
-
-    
 
 
 
