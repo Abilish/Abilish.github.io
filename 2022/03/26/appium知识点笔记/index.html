@@ -13,7 +13,7 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n1. Appium是什么Appium 是移动端的自动化测试框架，可用于测试\n\n原生应用：能安装，即从应用程序市场中下载的app\n移动网页应用：浏览器访问的应用，iOS上的Safari和Android上的 Chrome\n混合应用：原生应用中嵌入web网页\n\n可以用在iOS和Android操作系统上，多语言，多平台（iOS、Android，Windows、Mac）。\n1.1 Appium原理The Appium Clients - Appium\nAppium使用Client/Server设计模式，Client发送HTTP请求给Server其中用任何语言来实现都可以。采用了C/S设计模式就是Appium和Selenium（WebDriver）支持多语言的原因。\nAppium类库封装了selenium类库并在其基础上增加了一些扩展，以实现selenium无法完成的功能，例如：手机端操作、旋转屏幕、手机硬件、手势操作等。\nAppium的底层通过HTTP协议进行交互，**在W3C协议WebDriver (w3c.github.io)的基础上进行了扩展[ Mobile JSON Wire Protocol**。\nwebdriver基于http协议，第一链接会建立一个session会话，并且通过post发送一个json告知服务端相关测试信息。\n按照W3C的协议及appium扩展的协议可以封装成自己的测试框架，通过一系列的api完成各种客户端的操作。\n1.2 Appium环境Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client\n1.3 Appium源代码（待补充）Appium Package Structure - Appium\nAppium (github.com)\nappium server: Node.js系列包、adb shell、ChromeDriver\n底层引擎： Uiautomator java（Android）、WDA（IOS）、selenium\nappium client: Python、java\nandroid直接依赖于uiautomator2-driver，uiautomator2-driver间接依赖uiautomator2-server，uiautomator2-server是核心。\n脚本中的所有请求先经过appium server（Node.js写的），多数逻辑直接转化给了android的Uiautomator2 Server（Java写的），收到请求后底层调用Uiautomator2来完成对应控件的识别、定位，以及操作。\n2. 常用命令2.1 常用adb命令查看当前设备：\n1adb devices\n\n\n\n2.1.1 获取app的信息\napp信息：\n\n12345# 获取当前界面元素adb shell dumpsys activity top# 获取任务列表(待补充)adb shell dumpsys actity activities\n\n\napp入口（获取包名，activity名）：\n\n123adb logcat |grep -i displayed  \t\t\t# Linuxadb shell &quot;logcat |grep -i displayed&quot;   # Winadb logcat |findstr -i displayed\t\t# Win\n\n\n启动应用\n\n1adb shell am start -W -n 包名/activity名 -S\n\n\n\n2.2 appium常用设置中文版：https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md\n英文版：https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md\n123app apk地址appPackage # 包名appActivity # Activity名\n\n\n\n“noReset” : True：在当前 session 下不会重置应用的状态。默认值为 false。\n适用情景：弹框、登录等\nfullReset：Stop app, clear app data and uninstall apk before session starts and after test\n1&quot;skipDeviceInitialization&quot;   true or false\n\n跳过安装、权限设置等操作，提升性能，加快速度\n“udid”  多设备测试时启用\n&quot;dontStopAppOnReset&quot;：首次启动的时候\n&quot;unicodeKeyboard&quot;   &quot;resetKeyboard&quot;是否输入非英文之外的语言并在测试完成后重置输入法\n3.","dateCreated":"2022-03-26T15:26:07+08:00","dateModified":"2022-03-27T22:59:06+08:00","datePublished":"2022-03-26T15:26:07+08:00","description":"appium知识点笔记系统整理、学习总结","headline":"appium知识点笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/","keywords":"创作中"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n1. Appium是什么Appium 是移动端的自动化测试框架，可用于测试\n\n原生应用：能安装，即从应用程序市场中下载的app\n移动网页应用：浏览器访问的应用，iOS上的Safari和Android上的 Chrome\n混合应用：原生应用中嵌入web网页。（微信小程序）\n\n可以用在iOS和Android操作系统上，多语言，多平台（iOS、Android，Windows、Mac）。\n1.1 Appium原理The Appium Clients - Appium\nAppium使用Client/Server设计模式，Client发送HTTP请求给Server其中用任何语言来实现都可以。采用了C/S设计模式就是Appium和Selenium（WebDriver）支持多语言的原因。\nAppium类库封装了selenium类库并在其基础上增加了一些扩展，以实现selenium无法完成的功能，例如：手机端操作、旋转屏幕、手机硬件、手势操作等。\nAppium的底层通过HTTP协议进行交互，**在W3C协议WebDriver (w3c.github.io)的基础上进行了扩展[ Mobile JSON Wire Protocol**。\nwebdriver基于http协议，第一链接会建立一个session会话，并且通过post发送一个json告知服务端相关测试信息。\n按照W3C的协议及appium扩展的协议可以封装成自己的测试框架，通过一系列的api完成各种客户端的操作。\n1.2 Appium设计理念Appium Client、Appium Server、被测设备\n\nAppium Client就是脚本，可以用任何语言编写；\n\nAppium Server提供了一整套的服务，先启动4723端口，然后会监听客户端（Appium Client）发来的请求（HTTP），客户端通过webdriver.remote给客户端发送请求建立连接；\n同时server还会将请求转发给被测的移动设备，客户端和server端建立连接时发送的JSON会告诉server被测设备的信息及指令，再将指令转发给被测设备；\n被测设备执行完测试转发给server，server再返回给客户端。\n\nserver可以放在云端\n\n\n\n\n\n\n1.3 Appium环境Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client\n客户端（Appium Client）：Appium-Python-Client（pip，调用webdriver需要）、python3\n服务端（Appium Server）：\n\nappium-desktop: \n新手友好，官网安装。包含两部分：appium inspector（录制功能）、appium server\n\nappium server（官方方式：npm install -g appium；cnpm install -g appium）\n还需要安装的运行环境：Node js（≥10）、npm（≥6）\n\n\n手机端：\nAndroid设备：\n\n真机 / 模拟器（mumu模拟器(6.1)、夜神(5.1)、逍遥、genimotion(连接外网，对不同尺寸型号都能定制)、emulator(电脑性能要好，提供不同版本)）\n\nadb：android debug bridge——&gt;需要配置Android sdk（下载、环境变量）\nJava 1.8 （环境变量）\n\n\niOS设备（MacOS）：\n\n真机 / 模拟器：Xcode，libimobiledevice、ideviceinstaller、WDA\n\nAndroid可以运行在Windows、MacOS、Linux环境下；\niOS设备只能运行在MacOS环境下\n1.4 常用端口4723、5037、7555、800*\n4723：Appium server监听客户端发来的请求的端口，多设备时要监听多个端口\n5037：adb server和adb clients之间的通讯端口。\n7555：MuMu模拟器端口\n800*：appium server和手机端之间的通讯端口（8200）\n1.5 Appium源代码（待补充）Appium Package Structure - Appium\nAppium (github.com)\nappium server: Node.js系列包、adb shell、ChromeDriver\n底层引擎： Uiautomator java（Android）、WDA（IOS）、selenium\nappium client: Python、java\nandroid直接依赖于uiautomator2-driver，uiautomator2-driver间接依赖uiautomator2-server，uiautomator2-server是核心。\n脚本中的所有请求先经过appium server（Node.js写的），多数逻辑直接转化给了android的Uiautomator2 Server（Java写的），收到请求后底层调用Uiautomator2来完成对应控件的识别、定位，以及操作。\n二次封装appium\n\n自定义Appium Server\n\ngithub下载源码\n参考文档从源代码运行 Appium - Appium\n\n重新编译Uiautomator\n\ngit clone appium-uisutomator2-server\n2. 常用命令及设置2.1 常用adb命令查看当前设备：\n1adb devices\n\n123adb kill-serveradb start-serveradn connect IP/端口\n\n\n\n2.1.1 获取app的信息\napp信息：\n\n12345# 获取当前界面元素adb shell dumpsys activity top# 获取任务列表(待补充)adb shell dumpsys actity activities\n\n\napp入口（获取包名，activity名）：\n\n123adb logcat |grep -i displayed  \t\t\t# Linuxadb shell &quot;logcat |grep -i displayed&quot;   # Winadb logcat |findstr -i displayed\t\t# Win\n\n\n启动应用\n\n1adb shell am start -W -n 包名/activity名 -S\n\n\n\n2.2 appium常用设置中文版：https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md\n英文版：https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md / Desired Capabilities - Appium\n123app apk地址appPackage # 包名appActivity # Activity名\n\n\n\n: True```：在当前 session 下不会重置应用的状态。默认值为 false。1234567891011121314151617181920212223242526272829适用情景：弹框、登录等```fullReset```：Stop app, clear app data and uninstall apk before session starts and after test``````&quot;skipDeviceInitialization&quot;   true or false``````跳过安装、权限设置等操作，提升性能，加快速度```“udid”```  多设备测试时启用```&quot;dontStopAppOnReset&quot;```：首次启动的时候```&quot;unicodeKeyboard&quot;   &quot;resetKeyboard&quot;```是否输入非英文之外的语言并在测试完成后重置输入法## 2.3 Appium server的常用命令\nappium # 直接启动appium –help # 帮助文档appium -g d:\\appium.log # 打印日志到文件appium.logappium -p 4723    # 多设备，启动特定端口\n1234567## 2.4 Android Stadio显示emulator支持的所有命令：\nemulator -help\n123列出可用模拟器：\nemulator -list-avds  \n123命令行方式启动模拟器：\nemulator @可用模拟器名\n\n\n\n# 3. App测试\n\n## 3.1 pytest：setup_class、setup\n\nsetup_class :、teardown_class在**每一个类中只执行一次**，先执行setup_class方法，再执行setup方法。setup、teardown在方法中调用。\n\n\n\n\n\n# 4. 常用操作\n\n## 3.1 弹框处理\n\n\n\n\n\n\n\n\n\n\n","dateCreated":"2022-03-26T15:26:07+08:00","dateModified":"2022-03-28T23:35:12+08:00","datePublished":"2022-03-26T15:26:07+08:00","description":"appium知识点笔记系统整理、学习总结","headline":"appium知识点笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/26/appium%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0/","keywords":"创作中"}</script>
     <meta name="description" content="appium知识点笔记系统整理、学习总结">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="appium知识点笔记">
@@ -21,11 +21,14 @@
 <meta property="og:site_name" content="Do">
 <meta property="og:description" content="appium知识点笔记系统整理、学习总结">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/03/28/g3T9qM7nKuPcmZ1.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/28/3c5tbxTuMOgAKDX.png">
 <meta property="article:published_time" content="2022-03-26T07:26:07.000Z">
-<meta property="article:modified_time" content="2022-03-27T14:59:06.003Z">
+<meta property="article:modified_time" content="2022-03-28T15:35:12.875Z">
 <meta property="article:author" content="Abilish">
 <meta property="article:tag" content="创作中">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/03/28/g3T9qM7nKuPcmZ1.png">
     
     
         
@@ -260,13 +263,13 @@
         <div class="main-content-wrap">
             <!-- excerpt -->
 
-<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Appium%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">1. Appium是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-Appium%E5%8E%9F%E7%90%86"><span class="toc-text">1.1 Appium原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-Appium%E7%8E%AF%E5%A2%83"><span class="toc-text">1.2 Appium环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-Appium%E6%BA%90%E4%BB%A3%E7%A0%81%EF%BC%88%E5%BE%85%E8%A1%A5%E5%85%85%EF%BC%89"><span class="toc-text">1.3 Appium源代码（待补充）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%B8%B8%E7%94%A8adb%E5%91%BD%E4%BB%A4"><span class="toc-text">2.1 常用adb命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E8%8E%B7%E5%8F%96app%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="toc-text">2.1.1 获取app的信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-appium%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE"><span class="toc-text">2.2 appium常用设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3"><span class="toc-text">3.</span></a></li></ol>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Appium%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">1. Appium是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-Appium%E5%8E%9F%E7%90%86"><span class="toc-text">1.1 Appium原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-Appium%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5"><span class="toc-text">1.2 Appium设计理念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-Appium%E7%8E%AF%E5%A2%83"><span class="toc-text">1.3 Appium环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E5%B8%B8%E7%94%A8%E7%AB%AF%E5%8F%A3"><span class="toc-text">1.4 常用端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-Appium%E6%BA%90%E4%BB%A3%E7%A0%81%EF%BC%88%E5%BE%85%E8%A1%A5%E5%85%85%EF%BC%89"><span class="toc-text">1.5 Appium源代码（待补充）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E8%AE%BE%E7%BD%AE"><span class="toc-text">2. 常用命令及设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%B8%B8%E7%94%A8adb%E5%91%BD%E4%BB%A4"><span class="toc-text">2.1 常用adb命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E8%8E%B7%E5%8F%96app%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="toc-text">2.1.1 获取app的信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-appium%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE"><span class="toc-text">2.2 appium常用设置</span></a></li></ol></li></ol>
 
 <h1 id="1-Appium是什么"><a href="#1-Appium是什么" class="headerlink" title="1. Appium是什么"></a>1. Appium是什么</h1><p>Appium 是移动端的自动化测试框架，可用于测试</p>
 <ul>
 <li><strong>原生应用</strong>：能安装，即从应用程序市场中下载的app</li>
 <li><strong>移动网页应用</strong>：浏览器访问的应用，iOS上的Safari和Android上的 Chrome</li>
-<li><strong>混合应用</strong>：原生应用中嵌入web网页</li>
+<li><strong>混合应用</strong>：原生应用中嵌入web网页。（微信小程序）</li>
 </ul>
 <p>可以用在iOS和Android操作系统上，多语言，多平台（iOS、Android，Windows、Mac）。</p>
 <h2 id="1-1-Appium原理"><a href="#1-1-Appium原理" class="headerlink" title="1.1 Appium原理"></a>1.1 Appium原理</h2><p><a target="_blank" rel="noopener" href="https://appium.io/docs/en/about-appium/appium-clients/">The Appium Clients - Appium</a></p>
@@ -275,16 +278,73 @@
 <p>Appium的底层通过HTTP协议进行交互，**在W3C协议<a target="_blank" rel="noopener" href="https://w3c.github.io/webdriver/webdriver-spec.html">WebDriver (w3c.github.io)</a>的基础上进行了扩展[ <a target="_blank" rel="noopener" href="https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md">Mobile JSON Wire Protocol</a>**。</p>
 <p>webdriver基于http协议，第一链接会建立一个session会话，并且通过post发送一个json告知服务端相关测试信息。</p>
 <p>按照W3C的协议及appium扩展的协议可以封装成自己的测试框架，通过一系列的api完成各种客户端的操作。</p>
-<h2 id="1-2-Appium环境"><a href="#1-2-Appium环境" class="headerlink" title="1.2 Appium环境"></a>1.2 Appium环境</h2><p>Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client</p>
-<h2 id="1-3-Appium源代码（待补充）"><a href="#1-3-Appium源代码（待补充）" class="headerlink" title="1.3 Appium源代码（待补充）"></a>1.3 Appium源代码（待补充）</h2><p><a target="_blank" rel="noopener" href="https://appium.io/docs/en/contributing-to-appium/appium-packages/#appium-in-a-nutshell">Appium Package Structure - Appium</a></p>
+<h2 id="1-2-Appium设计理念"><a href="#1-2-Appium设计理念" class="headerlink" title="1.2 Appium设计理念"></a>1.2 Appium设计理念</h2><p>Appium Client、Appium Server、被测设备</p>
+<ul>
+<li><p>Appium Client就是脚本，可以用任何语言编写；</p>
+</li>
+<li><p>Appium Server提供了一整套的服务，先启动4723端口，然后会监听客户端（Appium Client）发来的请求（<strong>HTTP</strong>），客户端通过webdriver.remote给客户端发送请求建立连接；</p>
+<p>同时server还会将请求转发给被测的移动设备，客户端和server端建立连接时发送的<strong>JSON</strong>会告诉server被测设备的信息及指令，再将指令转发给被测设备；</p>
+<p>被测设备执行完测试转发给server，server再返回给客户端。</p>
+</li>
+<li><p>server可以放在云端</p>
+</li>
+</ul>
+<img src="https://s2.loli.net/2022/03/28/g3T9qM7nKuPcmZ1.png" alt="appium.png" style="zoom: 150%;" />
+
+
+
+<h2 id="1-3-Appium环境"><a href="#1-3-Appium环境" class="headerlink" title="1.3 Appium环境"></a>1.3 Appium环境</h2><p>Java 1.8、Android sdk、Node js（≥10）、npm（≥6）、python3、appium-desktop、Appium-Python-Client</p>
+<p><strong>客户端（Appium Client）</strong>：Appium-Python-Client（pip，调用webdriver需要）、python3</p>
+<p><strong>服务端（Appium Server）</strong>：</p>
+<ol>
+<li><p>appium-desktop: </p>
+<p>新手友好，官网安装。包含两部分：appium inspector（录制功能）、appium server</p>
+</li>
+<li><p>appium server（官方方式：<code>npm install -g appium</code>；<code>cnpm install -g appium</code>）</p>
+<p>还需要安装的运行环境：Node js（≥10）、npm（≥6）</p>
+</li>
+</ol>
+<p><strong>手机端</strong>：</p>
+<p>Android设备：</p>
+<ul>
+<li><p>真机 / 模拟器（mumu模拟器(6.1)、夜神(5.1)、逍遥、genimotion(连接外网，对不同尺寸型号都能定制)、emulator(电脑性能要好，提供不同版本)）</p>
+</li>
+<li><p>adb：android debug bridge——&gt;需要配置Android sdk（下载、环境变量）</p>
+<p>Java 1.8 （环境变量）</p>
+</li>
+</ul>
+<p>iOS设备（MacOS）：</p>
+<ul>
+<li>真机 / 模拟器：Xcode，libimobiledevice、ideviceinstaller、WDA</li>
+</ul>
+<p>Android可以运行在Windows、MacOS、Linux环境下；</p>
+<p>iOS设备只能运行在MacOS环境下</p>
+<h2 id="1-4-常用端口"><a href="#1-4-常用端口" class="headerlink" title="1.4 常用端口"></a>1.4 常用端口</h2><p>4723、5037、7555、800*</p>
+<p>4723：Appium server监听客户端发来的请求的端口，多设备时要监听多个端口</p>
+<p>5037：adb server和adb clients之间的通讯端口。<img src="https://s2.loli.net/2022/03/28/3c5tbxTuMOgAKDX.png" alt="adb.png"  /></p>
+<p>7555：MuMu模拟器端口</p>
+<p>800*：appium server和手机端之间的通讯端口（8200）</p>
+<h2 id="1-5-Appium源代码（待补充）"><a href="#1-5-Appium源代码（待补充）" class="headerlink" title="1.5 Appium源代码（待补充）"></a>1.5 Appium源代码（待补充）</h2><p><a target="_blank" rel="noopener" href="https://appium.io/docs/en/contributing-to-appium/appium-packages/#appium-in-a-nutshell">Appium Package Structure - Appium</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/appium">Appium (github.com)</a></p>
 <p><strong>appium server</strong>: Node.js系列包、adb shell、ChromeDriver</p>
 <p><strong>底层引擎</strong>： Uiautomator java（Android）、WDA（IOS）、selenium</p>
 <p><strong>appium client</strong>: Python、java</p>
 <p>android直接依赖于uiautomator2-driver，uiautomator2-driver间接依赖uiautomator2-server，uiautomator2-server是核心。</p>
 <p>脚本中的所有请求先经过appium server（Node.js写的），多数逻辑直接转化给了android的Uiautomator2 Server（Java写的），收到请求后底层调用Uiautomator2来完成对应控件的识别、定位，以及操作。</p>
-<h1 id="2-常用命令"><a href="#2-常用命令" class="headerlink" title="2. 常用命令"></a>2. 常用命令</h1><h2 id="2-1-常用adb命令"><a href="#2-1-常用adb命令" class="headerlink" title="2.1 常用adb命令"></a>2.1 常用adb命令</h2><p>查看当前设备：</p>
+<p><strong>二次封装appium</strong></p>
+<ul>
+<li>自定义Appium Server</li>
+</ul>
+<p>github下载源码</p>
+<p>参考文档<a target="_blank" rel="noopener" href="https://appium.io/docs/cn/contributing-to-appium/appium-from-source/">从源代码运行 Appium - Appium</a></p>
+<ul>
+<li>重新编译Uiautomator</li>
+</ul>
+<p>git clone appium-uisutomator2-server</p>
+<h1 id="2-常用命令及设置"><a href="#2-常用命令及设置" class="headerlink" title="2. 常用命令及设置"></a>2. 常用命令及设置</h1><h2 id="2-1-常用adb命令"><a href="#2-1-常用adb命令" class="headerlink" title="2.1 常用adb命令"></a>2.1 常用adb命令</h2><p>查看当前设备：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb kill-server</span><br><span class="line">adb start-server</span><br><span class="line">adn connect IP/端口</span><br></pre></td></tr></table></figure>
 
 
 
@@ -306,21 +366,46 @@
 
 
 <h2 id="2-2-appium常用设置"><a href="#2-2-appium常用设置" class="headerlink" title="2.2 appium常用设置"></a>2.2 appium常用设置</h2><p>中文版：<a target="_blank" rel="noopener" href="https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md">https://github.com/appium/appium/blob/master/docs/cn/writing-running-appium/caps.md</a></p>
-<p>英文版：<a target="_blank" rel="noopener" href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md">https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md</a></p>
+<p>英文版：<a target="_blank" rel="noopener" href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md">https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md</a> / <a target="_blank" rel="noopener" href="https://appium.io/docs/en/writing-running-appium/caps/">Desired Capabilities - Appium</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app apk地址</span><br><span class="line">appPackage # 包名</span><br><span class="line">appActivity # Activity名</span><br></pre></td></tr></table></figure>
 
 
 
-<p><code>“noReset” : True</code>：在当前 session 下不会重置应用的状态。默认值为 false。</p>
-<p>适用情景：弹框、登录等</p>
-<p><code>fullReset</code>：Stop app, clear app data and uninstall apk before session starts and after test</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;skipDeviceInitialization&quot;   true or false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><figcaption><span>: True```：在当前 session 下不会重置应用的状态。默认值为 false。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">适用情景：弹框、登录等</span><br><span class="line"></span><br><span class="line">```fullReset```：Stop app, clear app data and uninstall apk before session starts and after test</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">``````</span><br><span class="line">&quot;skipDeviceInitialization&quot;   true or false</span><br><span class="line">``````</span><br><span class="line"></span><br><span class="line">跳过安装、权限设置等操作，提升性能，加快速度</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```“udid”```  多设备测试时启用</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```&quot;dontStopAppOnReset&quot;```：首次启动的时候</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```&quot;unicodeKeyboard&quot;   &quot;resetKeyboard&quot;```是否输入非英文之外的语言并在测试完成后重置输入法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 2.3 Appium server的常用命令</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>appium # 直接启动<br>appium –help # 帮助文档<br>appium -g d:\appium.log # 打印日志到文件appium.log<br>appium -p 4723    # 多设备，启动特定端口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 2.4 Android Stadio</span><br><span class="line"></span><br><span class="line">显示emulator支持的所有命令：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>emulator -help</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">列出可用模拟器：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>emulator -list-avds  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">命令行方式启动模拟器：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>emulator @可用模拟器名</p>
+<pre><code>
 
-<p>跳过安装、权限设置等操作，提升性能，加快速度</p>
-<p><code>“udid”</code>  多设备测试时启用</p>
-<p><code>&quot;dontStopAppOnReset&quot;</code>：首次启动的时候</p>
-<p><code>&quot;unicodeKeyboard&quot;   &quot;resetKeyboard&quot;</code>是否输入非英文之外的语言并在测试完成后重置输入法</p>
-<h1 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h1>
+
+# 3. App测试
+
+## 3.1 pytest：setup_class、setup
+
+setup_class :、teardown_class在**每一个类中只执行一次**，先执行setup_class方法，再执行setup方法。setup、teardown在方法中调用。
+
+
+
+
+
+# 4. 常用操作
+
+## 3.1 弹框处理
+
+
+
+
+
+
+
+
+
+
+</code></pre>
             
 
 
@@ -375,7 +460,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#x73;&#102;&#x79;&#x5f;&#x6d;&#120;&#64;&#x31;&#x36;&#51;&#46;&#99;&#x6f;&#109;">&#x73;&#102;&#x79;&#x5f;&#x6d;&#120;&#64;&#x31;&#x36;&#51;&#46;&#99;&#x6f;&#109;</a></p>
+                <p><a href="mailto:&#x73;&#102;&#x79;&#95;&#x6d;&#x78;&#64;&#x31;&#x36;&#51;&#x2e;&#99;&#111;&#109;">&#x73;&#102;&#x79;&#95;&#x6d;&#x78;&#64;&#x31;&#x36;&#51;&#x2e;&#99;&#111;&#109;</a></p>
 
             </div>
         
