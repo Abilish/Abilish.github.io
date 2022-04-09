@@ -13,7 +13,7 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n\n\n接口测试\n正文正文","dateCreated":"2022-04-05T08:48:03+08:00","dateModified":"2022-04-05T18:27:52+08:00","datePublished":"2022-04-05T08:48:03+08:00","description":"接口测试知识笔记整理、总结。\n期待：在前两篇总结appium、selenium笔记基础上进行改进、完善。换一种方式总结，通过流程引出每部分流程所要用到的知识点，从而加深理解。\n笔记内容包括：\n\n测试流程（+思维导图）\n每个流程所需掌握的知识点\n项目，可能会结合1去写\n\n","headline":"接口测试学习笔记","image":[null,"krivec.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/04/05/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/04/05/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/","keywords":"创作中","thumbnailUrl":"krivec.jpg"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n\n\n接口测试\n正文正文\n1. 项目1.1 项目介绍依赖：\n\npip\nvirtualenv\npytest\nrequests\npytest-xdist：并发\nfilelock 文件锁\n\n1.2 使用Postman进行简单的接口测试2. 基础知识2.1 浏览器与服务器浏览器向服务器发出请求，服务器响应，浏览器将返回的数据进行了渲染，而curl、requests可以代替浏览器发出请求，只是少了一层渲染\n请求要满足某种规则\n任何API的操作的第一步都是获取Tocken\n并发要考虑到互相影响\n3. 项目流程知识点post传入body的两种方法对比：\n12345678910    requests.post(f&quot;https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=&#123;test_token()&#125;&quot;,                  data=&#123;&#125;)# data=&#123;&#125;需要指定json格式date = &#123;        &quot;userid&quot; : &quot;zhangsan&quot;    &#125;   requests.post(f&quot;https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=&#123;test_token()&#125;&quot;,                  json=date)# 写json=date，不仅可以将数据传给json，同时还可以对格式进行转化\n\n\n\n并发测试：pytest-xdist、pytest.ini配置\n4. 那些年踩过的坑踩坑合集 · 每一次踩过的坑都能让你更加从容潇洒地跌入下一个深坑，风里雨里坑里等你\n5. 问题与思考1、 UI测试更为接近使用者的真实体验的测试流程，接口测试是通过HTTP协议发送请求，接收响应，那么接口测试在测试中的用处在哪里，扮演了什么样的角色？\n2、如果我懂一点后端开发是不是可以对接口测试有更深的认识？在开发中接口起到了什么作用，其内部又是如何连通的？正向、反向来看🤔","dateCreated":"2022-04-05T08:48:03+08:00","dateModified":"2022-04-09T22:21:25+08:00","datePublished":"2022-04-05T08:48:03+08:00","description":"接口测试知识笔记整理、总结。\n期待：在前两篇总结appium、selenium笔记基础上进行改进、完善。换一种方式总结，通过流程引出每部分流程所要用到的知识点，从而加深理解。\n笔记内容包括：\n\n测试流程（+思维导图）\n每个流程所需掌握的知识点\n项目，可能会结合1去写\n\n","headline":"接口测试学习笔记","image":[null,"krivec.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/04/05/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/04/05/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/","keywords":"创作中","thumbnailUrl":"krivec.jpg"}</script>
     <meta name="description" content="接口测试知识笔记整理、总结。 期待：在前两篇总结appium、selenium笔记基础上进行改进、完善。换一种方式总结，通过流程引出每部分流程所要用到的知识点，从而加深理解。 笔记内容包括：  测试流程（+思维导图） 每个流程所需掌握的知识点 项目，可能会结合1去写">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="接口测试学习笔记">
@@ -22,7 +22,7 @@
 <meta property="og:description" content="接口测试知识笔记整理、总结。 期待：在前两篇总结appium、selenium笔记基础上进行改进、完善。换一种方式总结，通过流程引出每部分流程所要用到的知识点，从而加深理解。 笔记内容包括：  测试流程（+思维导图） 每个流程所需掌握的知识点 项目，可能会结合1去写">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-05T00:48:03.000Z">
-<meta property="article:modified_time" content="2022-04-05T10:27:52.161Z">
+<meta property="article:modified_time" content="2022-04-09T14:21:25.832Z">
 <meta property="article:author" content="Abilish">
 <meta property="article:tag" content="创作中">
 <meta name="twitter:card" content="summary">
@@ -271,12 +271,34 @@
         <div class="main-content-wrap">
             <!-- excerpt -->
 
-<h1 id="table-of-contents">目录</h1>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE"><span class="toc-text">1. 项目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-text">1.1 项目介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E4%BD%BF%E7%94%A8Postman%E8%BF%9B%E8%A1%8C%E7%AE%80%E5%8D%95%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95"><span class="toc-text">1.2 使用Postman进行简单的接口测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-text">2. 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">2.1 浏览器与服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-text">3. 项目流程知识点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E9%82%A3%E4%BA%9B%E5%B9%B4%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91"><span class="toc-text">4. 那些年踩过的坑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E9%97%AE%E9%A2%98%E4%B8%8E%E6%80%9D%E8%80%83"><span class="toc-text">5. 问题与思考</span></a></li></ol>
 
 
 
 <p>接口测试</p>
 <p>正文正文</p>
+<h1 id="1-项目"><a href="#1-项目" class="headerlink" title="1. 项目"></a>1. 项目</h1><h2 id="1-1-项目介绍"><a href="#1-1-项目介绍" class="headerlink" title="1.1 项目介绍"></a>1.1 项目介绍</h2><p><strong>依赖</strong>：</p>
+<ol>
+<li>pip</li>
+<li>virtualenv</li>
+<li>pytest</li>
+<li>requests</li>
+<li>pytest-xdist：并发</li>
+<li>filelock 文件锁</li>
+</ol>
+<h2 id="1-2-使用Postman进行简单的接口测试"><a href="#1-2-使用Postman进行简单的接口测试" class="headerlink" title="1.2 使用Postman进行简单的接口测试"></a>1.2 使用Postman进行简单的接口测试</h2><h1 id="2-基础知识"><a href="#2-基础知识" class="headerlink" title="2. 基础知识"></a>2. 基础知识</h1><h2 id="2-1-浏览器与服务器"><a href="#2-1-浏览器与服务器" class="headerlink" title="2.1 浏览器与服务器"></a>2.1 浏览器与服务器</h2><p>浏览器向服务器发出请求，服务器响应，浏览器将返回的数据进行了<strong>渲染</strong>，而curl、requests可以代替浏览器发出请求，只是少了一层渲染</p>
+<p>请求要满足某种规则</p>
+<p>任何API的操作的第一步都是获取Tocken</p>
+<p>并发要考虑到互相影响</p>
+<h1 id="3-项目流程知识点"><a href="#3-项目流程知识点" class="headerlink" title="3. 项目流程知识点"></a>3. 项目流程知识点</h1><p>post传入body的两种方法对比：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    requests.post(<span class="string">f&quot;https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=<span class="subst">&#123;test_token()&#125;</span>&quot;</span>,</span><br><span class="line">                  data=&#123;&#125;)</span><br><span class="line"><span class="comment"># data=&#123;&#125;需要指定json格式</span></span><br><span class="line"></span><br><span class="line">date = &#123;</span><br><span class="line">        <span class="string">&quot;userid&quot;</span> : <span class="string">&quot;zhangsan&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">   requests.post(<span class="string">f&quot;https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=<span class="subst">&#123;test_token()&#125;</span>&quot;</span>,</span><br><span class="line">                  json=date)</span><br><span class="line"><span class="comment"># 写json=date，不仅可以将数据传给json，同时还可以对格式进行转化</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>并发测试：pytest-xdist、pytest.ini配置</p>
+<h1 id="4-那些年踩过的坑"><a href="#4-那些年踩过的坑" class="headerlink" title="4. 那些年踩过的坑"></a>4. 那些年踩过的坑</h1><p>踩坑合集 · 每一次踩过的坑都能让你更加从容潇洒地跌入下一个深坑，风里雨里坑里等你</p>
+<h1 id="5-问题与思考"><a href="#5-问题与思考" class="headerlink" title="5. 问题与思考"></a>5. 问题与思考</h1><p>1、 UI测试更为接近使用者的真实体验的测试流程，接口测试是通过HTTP协议发送请求，接收响应，那么接口测试在测试中的用处在哪里，扮演了什么样的角色？</p>
+<p>2、如果我懂一点后端开发是不是可以对接口测试有更深的认识？在开发中接口起到了什么作用，其内部又是如何连通的？正向、反向来看🤔</p>
             
 
 
@@ -331,7 +353,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#x73;&#x66;&#121;&#x5f;&#109;&#x78;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#111;&#x6d;">&#x73;&#x66;&#121;&#x5f;&#109;&#x78;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#111;&#x6d;</a></p>
+                <p><a href="mailto:&#115;&#102;&#121;&#x5f;&#109;&#120;&#x40;&#49;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;">&#115;&#102;&#121;&#x5f;&#109;&#120;&#x40;&#49;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
             </div>
         
