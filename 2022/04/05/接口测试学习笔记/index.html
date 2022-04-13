@@ -13,7 +13,7 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n\n\n接口测试\n最近在整理接口测试的知识点，刚刚好看到了这篇文章，太好了，感谢大佬们的辛苦付出！2021 接口测试白皮书 欢迎下载阅读 · TesterHome\n1. 项目1.1 项目介绍依赖：\n\npip\nvirtualenv\npytest\nrequests\npytest-xdist：并发\nfilelock 文件锁\n\n1.2 使用Postman进行简单的接口测试2. 基础知识2.1 浏览器与服务器浏览器向服务器发出请求，服务器响应，浏览器将返回的数据进行了渲染，而curl、requests可以代替浏览器发出请求，只是少了一层渲染\n请求要满足某种规则\n任何API的操作的第一步都是获取Tocken\n并发要考虑到互相影响\n3. 项目流程知识点post传入body的两种方法对比：\n12345678910    requests.post(f&quot;https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=&#123;test_token()&#125;&quot;,                  data=&#123;&#125;)# data=&#123;&#125;需要指定json格式date = &#123;        &quot;userid&quot; : &quot;zhangsan&quot;    &#125;   requests.post(f&quot;https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=&#123;test_token()&#125;&quot;,                  json=date)# 写json=date，不仅可以将数据传给json，同时还可以对格式进行转化\n\n\n\n并发测试：pytest-xdist、pytest.ini配置\n【Pytest篇】pytest配置文件之pytest.ini - Code World (codetd.com)\npytest.ini配置文件之addopts设置项 - 码上快乐 (codeprj.com)\nPytest之并发执行(十四) - 云+社区 - 腾讯云 (tencent.com)\n4. 那些年踩过的坑踩坑合集 · 每一次踩过的坑都能让你更加从容潇洒地跌入下一个深坑，风里雨里坑里等你\n5. 问题与思考1、 UI测试更为接近使用者的真实体验的测试流程，接口测试是通过HTTP协议发送请求，接收响应，那么接口测试在测试中的用处在哪里，扮演了什么样的角色？\n2、如果我懂一点后端开发是不是可以对接口测试有更深的认识？在开发中接口起到了什么作用，其内部又是如何连通的？正向、反向来看🤔","dateCreated":"2022-04-05T08:48:03+08:00","dateModified":"2022-04-09T23:47:44+08:00","datePublished":"2022-04-05T08:48:03+08:00","description":"接口测试知识笔记整理、总结。\n期待：在前两篇总结appium、selenium笔记基础上进行改进、完善。换一种方式总结，通过流程引出每部分流程所要用到的知识点，从而加深理解。\n笔记内容包括：\n\n测试流程（+思维导图）\n每个流程所需掌握的知识点\n项目，可能会结合1去写\n\n","headline":"接口测试学习笔记","image":[null,"krivec.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/04/05/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/04/05/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/","keywords":"创作中","thumbnailUrl":"krivec.jpg"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n\n\n接口测试相关知识点文档：\n最近在整理接口测试的知识点，刚刚好看到了这篇文章，太好了，感谢大佬们的辛苦付出！2021 接口测试白皮书 欢迎下载阅读 · TesterHome\n1. 项目1.1 项目介绍依赖：\n\npip\nvirtualenv\npytest\nrequests\npytest-xdist：并发\nfilelock 文件锁\n\n1.2 使用Postman进行简单的接口测试2. 基础知识1. 什么是接口测试？接口测试是前端页面/APP等调用与后端做交互用的通道。\n\n2. 接口测试的必要性：1.可以发现很多在页面上操作发现不了的\n2.检查系统的异常处理能力\n3.检查系统的安全性、稳定性\n4.前端随便变，接口测好了，后端不用变\n5.其它优点：简单易学，维护成本低等等\n2021接口测试白皮书_V1.02 (kdocs.cn)\n3. 前后端数据传输：对于请求参数和返回的数据，前后端会统一起来，使用同一个数据格式，一般有两个XML和json常用格式。JOSN会更常用。\n请求的参数，可以被封装成json格式，传入到后端，后端，根据后端语言的系统常量，进行获取，解析请求数据，操作数据库，获得数据库数据，打包成json格式，最终以json格式的形式，传给前端。\n前端和后端数据交互的基本知识和常见方式\n4 . 接口测试和UI测试问题：接口测试和UI测试分别的侧重点是什么，接口测试的特点及适用范围？\n\n\n\n对比点\n接口测试\nUI测试\n\n\n\n测试类型\n针对各模块的接口，一般采用灰盒测试。（首先以黑盒方式设计如何调用API的测试用例，同时在测试执行过程中统计代码覆盖率，然后根据结果补充针对性的测试用例。）\n模拟真实用户在软件界面上的各种操作，并检验这些操作的准确性，替代部分功能测试\n\n\n测试对象\n数据\n页面元素\n\n\n效率\n更高\n—\n\n\n实用性\n更高\n–\n\n\n更稳定的原因\n由于接口测试是对后端数据的验证，如果接口测试改动，那么基本属于业务重新设计。更稳定，实用性更高。\nUI是基于页面的，UI测试的改动，很可能是因为前端的一个小小的改动。\n\n\n接口测试虽然优点很多，但接口测试保证的是后端工程师的产出质量；UI测试保证的是大前端工程师的产出质量。这就是二者适用范围的不同之处。\nUI还是接口？自动化测试如何决断？\n5. HTTP协议HTTP（超文本传输协议）是无状态协议，即服务器不会维护关于客户的任何信息，\n深入理解HTTP协议\n6. TCP和UDP传输层向上层提供远程的进程到进程的服务，传输层在网络层提供的主机到主机的服务基础上的加强。把由IP向上层提供的不可靠服务，通过TCP进行加强了这种可靠性。\nTCP：面向连接、错误重传、拥塞控制，可靠性高。\nUDP：无连接、可靠性低，实时性高。\n2.1 浏览器与服务器浏览器向服务器发出请求，服务器响应，浏览器将返回的数据进行了渲染，而curl、requests可以代替浏览器发出请求，只是少了一层渲染\n请求要满足某种规则\n任何API的操作的第一步都是获取Tocken\n并发要考虑到互相影响\n3. 项目流程知识点post传入body的两种方法对比：\n12345678910    requests.post(f&quot;https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=&#123;test_token()&#125;&quot;,                  data=&#123;&#125;)# data=&#123;&#125;需要指定json格式date = &#123;        &quot;userid&quot; : &quot;zhangsan&quot;    &#125;   requests.post(f&quot;https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=&#123;test_token()&#125;&quot;,                  json=date)# 写json=date，不仅可以将数据传给json，同时还可以对格式进行转化\n\n\n\n并发测试：pytest-xdist、pytest.ini配置\n【Pytest篇】pytest配置文件之pytest.ini - Code World (codetd.com)\npytest.ini配置文件之addopts设置项 - 码上快乐 (codeprj.com)\nPytest之并发执行(十四) - 云+社区 - 腾讯云 (tencent.com)\npost迷惑：\n在这里我传入了data参数，返回错误提示要改成json：Warning: wrong json format\n12345678&quot;data&quot;: &#123;                &quot;userid&quot;: userid,                &quot;name&quot;: name,                &quot;mobile&quot;: mobile,            &#125;    # 返回的结果&#123;&#x27;errcode&#x27;: 60111, &#x27;errmsg&#x27;: &#x27;Warning: wrong json format. userid not found......\n\n传入json返回正确\n12345678&quot;json&quot;: &#123;                &quot;userid&quot;: userid,                &quot;name&quot;: name,                &quot;mobile&quot;: mobile,            &#125;    # 输出结果&#123;&#x27;errcode&#x27;: 0, &#x27;errmsg&#x27;: &#x27;updated&#x27;&#125; \n\n为啥？\n问题2：**data\n传入的时候应该是代表多个参数的意思，那么解析呢是什么意思\n2. PO封装base用来封装通用的操作；wework中封装工具类\n\n将get_token单独放在一个py文件中，并在所需要使用的类中__init__  self.token\n\n疑问：为什么不写在base_api中？base_api是封装多次使用的方法的父类；而token等是会变化的，\n\n\n\n3. 数据驱动框架从po风格变为数据驱动风格（yaml文件）\nyaml.load\n4. 那些年踩过的坑踩坑合集 · 每一次踩过的坑都能让你更加从容潇洒地跌入下一个深坑，风里雨里坑里等你\n5. 问题与思考1、 UI测试更为接近使用者的真实体验的测试流程，接口测试是通过HTTP协议发送请求，接收响应，那么接口测试在测试中的用处在哪里，扮演了什么样的角色？\n2、如果我懂一点后端开发是不是可以对接口测试有更深的认识？在开发中接口起到了什么作用，其内部又是如何连通的？正向、反向来看🤔","dateCreated":"2022-04-05T08:48:03+08:00","dateModified":"2022-04-13T23:14:44+08:00","datePublished":"2022-04-05T08:48:03+08:00","description":"接口测试知识笔记整理、总结。\n期待：在前两篇总结appium、selenium笔记基础上进行改进、完善。换一种方式总结，通过流程引出每部分流程所要用到的知识点，从而加深理解。\n笔记内容包括：\n\n测试流程（+思维导图）\n每个流程所需掌握的知识点\n项目，可能会结合1去写\n\n","headline":"接口测试学习笔记","image":[null,"krivec.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/04/05/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/04/05/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/","keywords":"创作中","thumbnailUrl":"krivec.jpg"}</script>
     <meta name="description" content="接口测试知识笔记整理、总结。 期待：在前两篇总结appium、selenium笔记基础上进行改进、完善。换一种方式总结，通过流程引出每部分流程所要用到的知识点，从而加深理解。 笔记内容包括：  测试流程（+思维导图） 每个流程所需掌握的知识点 项目，可能会结合1去写">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="接口测试学习笔记">
@@ -21,11 +21,13 @@
 <meta property="og:site_name" content="Do">
 <meta property="og:description" content="接口测试知识笔记整理、总结。 期待：在前两篇总结appium、selenium笔记基础上进行改进、完善。换一种方式总结，通过流程引出每部分流程所要用到的知识点，从而加深理解。 笔记内容包括：  测试流程（+思维导图） 每个流程所需掌握的知识点 项目，可能会结合1去写">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/04/13/xj3EQHdGLXFvDAb.png">
 <meta property="article:published_time" content="2022-04-05T00:48:03.000Z">
-<meta property="article:modified_time" content="2022-04-09T15:47:44.970Z">
+<meta property="article:modified_time" content="2022-04-13T15:14:44.505Z">
 <meta property="article:author" content="Abilish">
 <meta property="article:tag" content="创作中">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/04/13/xj3EQHdGLXFvDAb.png">
     
     
         
@@ -271,11 +273,11 @@
         <div class="main-content-wrap">
             <!-- excerpt -->
 
-<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE"><span class="toc-text">1. 项目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-text">1.1 项目介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E4%BD%BF%E7%94%A8Postman%E8%BF%9B%E8%A1%8C%E7%AE%80%E5%8D%95%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95"><span class="toc-text">1.2 使用Postman进行简单的接口测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-text">2. 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">2.1 浏览器与服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-text">3. 项目流程知识点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E9%82%A3%E4%BA%9B%E5%B9%B4%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91"><span class="toc-text">4. 那些年踩过的坑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E9%97%AE%E9%A2%98%E4%B8%8E%E6%80%9D%E8%80%83"><span class="toc-text">5. 问题与思考</span></a></li></ol>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE"><span class="toc-text">1. 项目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-text">1.1 项目介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E4%BD%BF%E7%94%A8Postman%E8%BF%9B%E8%A1%8C%E7%AE%80%E5%8D%95%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95"><span class="toc-text">1.2 使用Postman进行简单的接口测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-text">2. 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%EF%BC%9F"><span class="toc-text">1. 什么是接口测试？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7%EF%BC%9A"><span class="toc-text">2. 接口测试的必要性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%89%8D%E5%90%8E%E7%AB%AF%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%EF%BC%9A"><span class="toc-text">3. 前后端数据传输：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%92%8CUI%E6%B5%8B%E8%AF%95"><span class="toc-text">4 . 接口测试和UI测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-HTTP%E5%8D%8F%E8%AE%AE"><span class="toc-text">5. HTTP协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-TCP%E5%92%8CUDP"><span class="toc-text">6. TCP和UDP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">2.1 浏览器与服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-text">3. 项目流程知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-PO%E5%B0%81%E8%A3%85"><span class="toc-text">2. PO封装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8%E6%A1%86%E6%9E%B6"><span class="toc-text">3. 数据驱动框架</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E9%82%A3%E4%BA%9B%E5%B9%B4%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91"><span class="toc-text">4. 那些年踩过的坑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E9%97%AE%E9%A2%98%E4%B8%8E%E6%80%9D%E8%80%83"><span class="toc-text">5. 问题与思考</span></a></li></ol>
 
 
 
-<p>接口测试</p>
+<p><strong>接口测试相关知识点文档</strong>：</p>
 <p>最近在整理接口测试的知识点，刚刚好看到了这篇文章，太好了，感谢大佬们的辛苦付出！<a target="_blank" rel="noopener" href="https://testerhome.com/topics/32419">2021 接口测试白皮书 欢迎下载阅读 · TesterHome</a></p>
 <h1 id="1-项目"><a href="#1-项目" class="headerlink" title="1. 项目"></a>1. 项目</h1><h2 id="1-1-项目介绍"><a href="#1-1-项目介绍" class="headerlink" title="1.1 项目介绍"></a>1.1 项目介绍</h2><p><strong>依赖</strong>：</p>
 <ol>
@@ -286,7 +288,60 @@
 <li>pytest-xdist：并发</li>
 <li>filelock 文件锁</li>
 </ol>
-<h2 id="1-2-使用Postman进行简单的接口测试"><a href="#1-2-使用Postman进行简单的接口测试" class="headerlink" title="1.2 使用Postman进行简单的接口测试"></a>1.2 使用Postman进行简单的接口测试</h2><h1 id="2-基础知识"><a href="#2-基础知识" class="headerlink" title="2. 基础知识"></a>2. 基础知识</h1><h2 id="2-1-浏览器与服务器"><a href="#2-1-浏览器与服务器" class="headerlink" title="2.1 浏览器与服务器"></a>2.1 浏览器与服务器</h2><p>浏览器向服务器发出请求，服务器响应，浏览器将返回的数据进行了<strong>渲染</strong>，而curl、requests可以代替浏览器发出请求，只是少了一层渲染</p>
+<h2 id="1-2-使用Postman进行简单的接口测试"><a href="#1-2-使用Postman进行简单的接口测试" class="headerlink" title="1.2 使用Postman进行简单的接口测试"></a>1.2 使用Postman进行简单的接口测试</h2><h1 id="2-基础知识"><a href="#2-基础知识" class="headerlink" title="2. 基础知识"></a>2. 基础知识</h1><h3 id="1-什么是接口测试？"><a href="#1-什么是接口测试？" class="headerlink" title="1. 什么是接口测试？"></a><strong>1. 什么是接口测试？</strong></h3><p>接口测试是<strong>前端页面/APP</strong>等调用与<strong>后端</strong>做交互用的通道。</p>
+<p><img src="https://s2.loli.net/2022/04/13/xj3EQHdGLXFvDAb.png" alt="111.png"></p>
+<h3 id="2-接口测试的必要性："><a href="#2-接口测试的必要性：" class="headerlink" title="2. 接口测试的必要性："></a><strong>2. 接口测试的必要性：</strong></h3><p>1.可以发现很多在页面上操作发现不了的</p>
+<p>2.检查系统的异常处理能力</p>
+<p>3.检查系统的安全性、稳定性</p>
+<p>4.前端随便变，接口测好了，后端不用变</p>
+<p>5.其它优点：简单易学，维护成本低等等</p>
+<p><a target="_blank" rel="noopener" href="https://www.kdocs.cn/l/saBhcJaQnPKB">2021接口测试白皮书_V1.02 (kdocs.cn)</a></p>
+<h3 id="3-前后端数据传输："><a href="#3-前后端数据传输：" class="headerlink" title="3. 前后端数据传输："></a><strong>3. 前后端数据传输：</strong></h3><p>对于请求参数和返回的数据，<strong>前后端会统一起来，使用同一个数据格式</strong>，一般有两个XML和json常用格式。<strong>JOSN会更常用</strong>。</p>
+<p>请求的参数，可以被封装成json格式，传入到后端，后端，根据后端语言的系统常量，进行获取，解析请求数据，操作数据库，获得数据库数据，打包成json格式，最终以json格式的形式，传给前端。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cn-oldboy/p/12349783.html#:~:text=%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8F%82%E6%95%B0%EF%BC%8C%E5%8F%AF%E4%BB%A5,%E5%BD%A2%E5%BC%8F%EF%BC%8C%E4%BC%A0%E7%BB%99%E5%89%8D%E7%AB%AF%E3%80%82">前端和后端数据交互的基本知识和常见方式</a></p>
+<h3 id="4-接口测试和UI测试"><a href="#4-接口测试和UI测试" class="headerlink" title="4 . 接口测试和UI测试"></a>4 . 接口测试和UI测试</h3><p><strong>问题</strong>：接口测试和UI测试分别的侧重点是什么，接口测试的特点及适用范围？</p>
+<table>
+<thead>
+<tr>
+<th align="center">对比点</th>
+<th align="center">接口测试</th>
+<th align="center">UI测试</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">测试类型</td>
+<td align="center">针对各模块的接口，一般采用灰盒测试。（首先以黑盒方式设计如何调用API的测试用例，同时在测试执行过程中统计代码覆盖率，然后根据结果补充针对性的测试用例。）</td>
+<td align="center"><strong>模拟真实用户</strong>在软件界面上的各种操作，并检验这些操作的准确性，<strong>替代部分功能测试</strong></td>
+</tr>
+<tr>
+<td align="center">测试对象</td>
+<td align="center"><strong>数据</strong></td>
+<td align="center"><strong>页面元素</strong></td>
+</tr>
+<tr>
+<td align="center">效率</td>
+<td align="center">更高</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="center">实用性</td>
+<td align="center">更高</td>
+<td align="center">–</td>
+</tr>
+<tr>
+<td align="center">更稳定的原因</td>
+<td align="center">由于接口测试是对后端数据的验证，如果接口测试改动，那么基本属于<strong>业务重新设计</strong>。更稳定，实用性更高。</td>
+<td align="center">UI是基于页面的，UI测试的改动，很可能是因为<strong>前端的一个小小的改动</strong>。</td>
+</tr>
+</tbody></table>
+<p>接口测试虽然优点很多，但<strong>接口测试保证的是后端工程师的产出质量</strong>；<strong>UI测试保证的是大前端工程师的产出质量</strong>。这就是二者适用范围的不同之处。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/409245764">UI还是接口？自动化测试如何决断？</a></p>
+<h3 id="5-HTTP协议"><a href="#5-HTTP协议" class="headerlink" title="5. HTTP协议"></a>5. HTTP协议</h3><p>HTTP（超文本传输协议）是<strong>无状态</strong>协议，即服务器不会维护关于客户的任何信息，</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45173862">深入理解HTTP协议</a></p>
+<h3 id="6-TCP和UDP"><a href="#6-TCP和UDP" class="headerlink" title="6. TCP和UDP"></a>6. TCP和UDP</h3><p><strong>传输层</strong>向上层提供远程的进程到进程的服务，传输层在网络层提供的主机到主机的服务基础上的加强。把由IP向上层提供的不可靠服务，通过TCP进行加强了这种可靠性。</p>
+<p><strong>TCP</strong>：面向连接、错误重传、拥塞控制，可靠性高。</p>
+<p><strong>UDP</strong>：无连接、可靠性低，实时性高。</p>
+<h2 id="2-1-浏览器与服务器"><a href="#2-1-浏览器与服务器" class="headerlink" title="2.1 浏览器与服务器"></a>2.1 浏览器与服务器</h2><p>浏览器向服务器发出请求，服务器响应，浏览器将返回的数据进行了<strong>渲染</strong>，而curl、requests可以代替浏览器发出请求，只是少了一层渲染</p>
 <p>请求要满足某种规则</p>
 <p>任何API的操作的第一步都是获取Tocken</p>
 <p>并发要考虑到互相影响</p>
@@ -299,6 +354,26 @@
 <p><a target="_blank" rel="noopener" href="https://www.codetd.com/es/article/13531883">【Pytest篇】pytest配置文件之pytest.ini - Code World (codetd.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.codeprj.com/blog/cd79e01.html">pytest.ini配置文件之addopts设置项 - 码上快乐 (codeprj.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1590188">Pytest之并发执行(十四) - 云+社区 - 腾讯云 (tencent.com)</a></p>
+<p><strong>post迷惑：</strong></p>
+<p>在这里我传入了data参数，返回错误提示要改成json：Warning: wrong json format</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;userid&quot;</span>: userid,</span><br><span class="line">                <span class="string">&quot;name&quot;</span>: name,</span><br><span class="line">                <span class="string">&quot;mobile&quot;</span>: mobile,</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 返回的结果</span></span><br><span class="line">&#123;<span class="string">&#x27;errcode&#x27;</span>: <span class="number">60111</span>, <span class="string">&#x27;errmsg&#x27;</span>: <span class="string">&#x27;Warning: wrong json format. userid not found......</span></span><br></pre></td></tr></table></figure>
+
+<p>传入json返回正确</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;json&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;userid&quot;</span>: userid,</span><br><span class="line">                <span class="string">&quot;name&quot;</span>: name,</span><br><span class="line">                <span class="string">&quot;mobile&quot;</span>: mobile,</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">&#123;<span class="string">&#x27;errcode&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;errmsg&#x27;</span>: <span class="string">&#x27;updated&#x27;</span>&#125; </span><br></pre></td></tr></table></figure>
+
+<p>为啥？</p>
+<p>问题2：**data</p>
+<p>传入的时候应该是代表多个参数的意思，那么解析呢是什么意思</p>
+<h2 id="2-PO封装"><a href="#2-PO封装" class="headerlink" title="2. PO封装"></a>2. PO封装</h2><p>base用来封装通用的操作；wework中封装工具类</p>
+<ol>
+<li>将<code>get_token</code>单独放在一个py文件中，并在所需要使用的类中<code>__init__</code>  self.token</li>
+</ol>
+<p>疑问：为什么不写在base_api中？base_api是封装多次使用的方法的父类；而token等是会变化的，</p>
+<ol>
+<li></li>
+</ol>
+<h2 id="3-数据驱动框架"><a href="#3-数据驱动框架" class="headerlink" title="3. 数据驱动框架"></a>3. 数据驱动框架</h2><p>从po风格变为数据驱动风格（yaml文件）</p>
+<p><code>yaml.load</code></p>
 <h1 id="4-那些年踩过的坑"><a href="#4-那些年踩过的坑" class="headerlink" title="4. 那些年踩过的坑"></a>4. 那些年踩过的坑</h1><p>踩坑合集 · 每一次踩过的坑都能让你更加从容潇洒地跌入下一个深坑，风里雨里坑里等你</p>
 <h1 id="5-问题与思考"><a href="#5-问题与思考" class="headerlink" title="5. 问题与思考"></a>5. 问题与思考</h1><p>1、 UI测试更为接近使用者的真实体验的测试流程，接口测试是通过HTTP协议发送请求，接收响应，那么接口测试在测试中的用处在哪里，扮演了什么样的角色？</p>
 <p>2、如果我懂一点后端开发是不是可以对接口测试有更深的认识？在开发中接口起到了什么作用，其内部又是如何连通的？正向、反向来看🤔</p>
@@ -356,7 +431,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#x73;&#102;&#121;&#95;&#109;&#120;&#64;&#x31;&#54;&#51;&#46;&#99;&#111;&#x6d;">&#x73;&#102;&#121;&#95;&#109;&#120;&#64;&#x31;&#54;&#51;&#46;&#99;&#111;&#x6d;</a></p>
+                <p><a href="mailto:&#115;&#x66;&#x79;&#x5f;&#x6d;&#120;&#64;&#x31;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#115;&#x66;&#x79;&#x5f;&#x6d;&#120;&#64;&#x31;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
             </div>
         
