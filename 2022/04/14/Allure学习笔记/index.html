@@ -1,0 +1,657 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Do">
+    <title>Allure学习笔记 - Do</title>
+    <meta name="author" content="Abilish">
+    
+    
+        <link rel="icon" href="http://example.com/assets/images/avatar.png">
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\nAllure生成测试报告必看（本文参考文档，不再一一标注）：\n官方文档：Allure Framework (qameta.io)\n学习文档：\nPython测试框架–Allure - 掘金 (juejin.cn)\n1 什么是Allure？2 Allure的安装方法一：\n1pip install allure-pytest\n\n方法二：\n在setting中安装到当前项目\n方法三：\nReleases · allure-framework/allure2 (github.com)\n先下载安装包，解压后，将bin目录放进系统环境变量path中cmd中输入allure --help查看是否安装成功\n3 Allure的几个特性12345@allure.feature # 用于定义被测试的功能，被测产品的需求点@allure.story # 用于定义被测功能的用户场景，即子功能点with allure.step # 用于将一个测试用例，分成几个步骤在报告中输出allure.attach # 用于向测试报告中输入一些附加的信息，通常是一些测试数据信息@pytest.allure.step # 用于将一些通用的函数作为测试步骤输出到报告，调用此函数的地方会向报告中输出步骤\n\n@allure.feature用在class前面，一个class包含了是功能点\n4 基本使用方法pytest+allure的使用有两个步骤：\n1、pytest生成测试报告相关数据：\n--alluredir参数：执行全部的测试用例，收集测试执行期间的结果，指定收集到的位置（相对/绝对）\n执行部分测试用例，可以指定参数--allure_features=&quot;报告购物车&quot;\n例子：\n（来源：Python测试框架–Allure)，这里就直接拿来用了，建议看全文，写得特别好）\n12345# 执行全部的测试用例pytest ./Allure/test_allure_shoping.py --alluredir ./Allure/result/# 执行指定features或者stories执行一部分测试用例，比如执行‘报告购物车’下的‘加入购物车’子功能的测试用例pytest ./Allure/test_allure_shopping.py --allure_features=&quot;报告购物车&quot; --allure_stories=&quot;加入购物车&quot; ../Allure/part_result/\n\n翻译一下：\n1pytest test文件路径 --aluredir 生成测试报告的数据的路径\n\n\n\n\n\n2、allure通过数据生成测试报告方法一：\nallure serve /tmp/my_allure_results：从指定位置生成测试报告，会直接弹出网页打开测试报告\n方法二：\n12345# 生成测试报告allure generate ./Alluer/result/ -o ./Allure/report/ --clean# 打开测试报告allure open -h 127.0.0.1 -p 8083 ./Allure/report/\n\n生成测试报告的翻译：\n1allure generate 刚刚用pytest生成的测试数据的位置 -o 生成的测试报告的位置并清空该文件夹（清除原有数据）\n\n\n\n5 成功生成报告\n\n6 其他用法参考来源：Allure Framework (qameta.io)\n6.1 Allure和Pytest的联合使用1、xfail\n1234@pytest.mark.xfail(condition=lambda: True, reason=&#x27;this test is expecting failure&#x27;)def test_xfail_expected_failure():    &quot;&quot;&quot;this test is an xfail that will be marked as expected failure&quot;&quot;&quot;    assert False\n\n2、笔记待补充\n遇到的坑1、无法找到模块错误信息：\n1E   ModuleNotFoundError: No module named &#x27;requests_project&#x27;\n\nModuleNotFoundError: No module named ‘xxx’可能的解决方案大全\n我的requests_project 没有 __init__.py\n2、Allure迷惑（待解决）在安装Allure使用方法一、方法二时，会出现\n123456allure : 无法将“allure”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确，   然后再试一次。所在位置 行:1 字符: 1+ ~~~~~~    + CategoryInfo          : ObjectNotFound: (allure:String) [], CommandNotFoundException    + FullyQualifiedErrorId : CommandNotFoundException\n\n暂时没找到原因，及解决办法。\n直接下载安装包（安装方法三）可以生成测试报告","dateCreated":"2022-04-14T10:21:00+08:00","dateModified":"2022-04-14T13:20:08+08:00","datePublished":"2022-04-14T10:21:00+08:00","description":"简介：pytest+Allure的学习笔记。\n看了看清一色的“XX学习笔记”，不由感叹自己可真是个起名鬼才，本来是想了一下叫什么名字，好像很麻烦，反正名字也不是那么重要，我知道写的是什么就行，遂放弃。这名字也挺好听，我不嫌弃自己。经典、精悍、直击主题🤭","headline":"Allure学习笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"}</script>
+    <meta name="description" content="简介：pytest+Allure的学习笔记。 看了看清一色的“XX学习笔记”，不由感叹自己可真是个起名鬼才，本来是想了一下叫什么名字，好像很麻烦，反正名字也不是那么重要，我知道写的是什么就行，遂放弃。这名字也挺好听，我不嫌弃自己。经典、精悍、直击主题🤭">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Allure学习笔记">
+<meta property="og:url" content="http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Do">
+<meta property="og:description" content="简介：pytest+Allure的学习笔记。 看了看清一色的“XX学习笔记”，不由感叹自己可真是个起名鬼才，本来是想了一下叫什么名字，好像很麻烦，反正名字也不是那么重要，我知道写的是什么就行，遂放弃。这名字也挺好听，我不嫌弃自己。经典、精悍、直击主题🤭">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/04/14/b1m8qKWxdiR2SVp.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/14/pvaSj1XqhBgPEfH.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/14/kHILGED6QTopNXs.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/14/d4C67eB3snvktOj.png">
+<meta property="article:published_time" content="2022-04-14T02:21:00.000Z">
+<meta property="article:modified_time" content="2022-04-14T05:20:08.680Z">
+<meta property="article:author" content="Abilish">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/04/14/b1m8qKWxdiR2SVp.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://example.com/assets/images/avatar.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-dnipa5uemzhoi9vvrnmqb2ijfofk2ioy6agrjzdgxdcme4ri2nzo71ht0dut.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Do
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Abilish</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Less is More.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
+                            
+                            rel="noopener"
+                            title="搜索"
+                        >
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/abilish"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="http://stackoverflow.com/users"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Stack Overflow"
+                        >
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Allure学习笔记
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2022-04-14T10:21:00+08:00">
+	
+		    4月 14, 2022
+    	
+    </time>
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Allure%E7%94%9F%E6%88%90%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">Allure生成测试报告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFAllure%EF%BC%9F"><span class="toc-text">1 什么是Allure？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Allure%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-text">2 Allure的安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Allure%E7%9A%84%E5%87%A0%E4%B8%AA%E7%89%B9%E6%80%A7"><span class="toc-text">3 Allure的几个特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">4 基本使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81pytest%E7%94%9F%E6%88%90%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A%E7%9B%B8%E5%85%B3%E6%95%B0%E6%8D%AE%EF%BC%9A"><span class="toc-text">1、pytest生成测试报告相关数据：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81allure%E9%80%9A%E8%BF%87%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-text">2、allure通过数据生成测试报告</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%88%90%E5%8A%9F%E7%94%9F%E6%88%90%E6%8A%A5%E5%91%8A"><span class="toc-text">5 成功生成报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%85%B6%E4%BB%96%E7%94%A8%E6%B3%95"><span class="toc-text">6 其他用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-Allure%E5%92%8CPytest%E7%9A%84%E8%81%94%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-text">6.1 Allure和Pytest的联合使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91"><span class="toc-text">遇到的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E6%A8%A1%E5%9D%97"><span class="toc-text">1、无法找到模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81Allure%E8%BF%B7%E6%83%91%EF%BC%88%E5%BE%85%E8%A7%A3%E5%86%B3%EF%BC%89"><span class="toc-text">2、Allure迷惑（待解决）</span></a></li></ol></li></ol>
+
+<h1 id="Allure生成测试报告"><a href="#Allure生成测试报告" class="headerlink" title="Allure生成测试报告"></a>Allure生成测试报告</h1><p><strong>必看</strong>（本文参考文档，不再一一标注）：</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://docs.qameta.io/allure/#_python">Allure Framework (qameta.io)</a></p>
+<p>学习文档：</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904017873600520">Python测试框架–Allure - 掘金 (juejin.cn)</a></p>
+<h2 id="1-什么是Allure？"><a href="#1-什么是Allure？" class="headerlink" title="1 什么是Allure？"></a>1 什么是Allure？</h2><h2 id="2-Allure的安装"><a href="#2-Allure的安装" class="headerlink" title="2 Allure的安装"></a><strong>2 Allure的安装</strong></h2><p>方法一：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install allure-pytest</span><br></pre></td></tr></table></figure>
+
+<p>方法二：</p>
+<p>在setting中安装到当前项目<img src="https://s2.loli.net/2022/04/14/b1m8qKWxdiR2SVp.png" alt="allure.png"></p>
+<p>方法三：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/allure-framework/allure2/releases">Releases · allure-framework/allure2 (github.com)</a></p>
+<p>先下载安装包，解压后，<strong>将bin目录放进系统环境变量path中</strong><br><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=cmd&spm=1001.2101.3001.7020">cmd</a>中输入<code>allure --help</code>查看是否安装成功</p>
+<h2 id="3-Allure的几个特性"><a href="#3-Allure的几个特性" class="headerlink" title="3 Allure的几个特性"></a>3 Allure的几个特性</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@allure.feature # 用于定义被测试的功能，被测产品的需求点</span><br><span class="line">@allure.story # 用于定义被测功能的用户场景，即子功能点</span><br><span class="line">with allure.step # 用于将一个测试用例，分成几个步骤在报告中输出</span><br><span class="line">allure.attach # 用于向测试报告中输入一些附加的信息，通常是一些测试数据信息</span><br><span class="line">@pytest.allure.step # 用于将一些通用的函数作为测试步骤输出到报告，调用此函数的地方会向报告中输出步骤</span><br></pre></td></tr></table></figure>
+
+<p><code>@allure.feature</code>用在class前面，一个class包含了是功能点</p>
+<h2 id="4-基本使用方法"><a href="#4-基本使用方法" class="headerlink" title="4 基本使用方法"></a>4 基本使用方法</h2><p>pytest+allure的使用有两个步骤：</p>
+<h3 id="1、pytest生成测试报告相关数据："><a href="#1、pytest生成测试报告相关数据：" class="headerlink" title="1、pytest生成测试报告相关数据："></a>1、pytest生成测试报告相关数据：</h3><p><img src="https://s2.loli.net/2022/04/14/pvaSj1XqhBgPEfH.png" alt="aaa4-50.png"></p>
+<p><code>--alluredir</code>参数：<strong>执行全部的测试用例</strong>，收集测试执行期间的结果，指定收集到的位置（相对/绝对）</p>
+<p><strong>执行部分测试用例</strong>，可以指定参数<code>--allure_features=&quot;报告购物车&quot;</code></p>
+<p><strong>例子：</strong></p>
+<p>（来源：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904017873600520">Python测试框架–Allure)</a>，这里就直接拿来用了，建议看全文，写得特别好）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 执行全部的测试用例</span><br><span class="line">pytest ./Allure/test_allure_shoping.py --alluredir ./Allure/result/</span><br><span class="line"></span><br><span class="line"># 执行指定features或者stories执行一部分测试用例，比如执行‘报告购物车’下的‘加入购物车’子功能的测试用例</span><br><span class="line">pytest ./Allure/test_allure_shopping.py --allure_features=&quot;报告购物车&quot; --allure_stories=&quot;加入购物车&quot; ../Allure/part_result/</span><br></pre></td></tr></table></figure>
+
+<p>翻译一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pytest test文件路径 --aluredir 生成测试报告的数据的路径</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="2、allure通过数据生成测试报告"><a href="#2、allure通过数据生成测试报告" class="headerlink" title="2、allure通过数据生成测试报告"></a>2、allure通过数据生成测试报告</h3><p><strong>方法一</strong>：</p>
+<p><code>allure serve /tmp/my_allure_results</code>：从指定位置生成测试报告，会直接弹出网页打开测试报告</p>
+<p><strong>方法二</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 生成测试报告</span><br><span class="line">allure generate ./Alluer/result/ -o ./Allure/report/ --clean</span><br><span class="line"></span><br><span class="line"># 打开测试报告</span><br><span class="line">allure open -h 127.0.0.1 -p 8083 ./Allure/report/</span><br></pre></td></tr></table></figure>
+
+<p>生成测试报告的翻译：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">allure generate 刚刚用pytest生成的测试数据的位置 -o 生成的测试报告的位置并清空该文件夹（清除原有数据）</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-成功生成报告"><a href="#5-成功生成报告" class="headerlink" title="5 成功生成报告"></a>5 成功生成报告</h2><p><img src="https://s2.loli.net/2022/04/14/kHILGED6QTopNXs.png" alt="allure0.png"></p>
+<p><img src="https://s2.loli.net/2022/04/14/d4C67eB3snvktOj.png" alt="未命名图片.png"></p>
+<h2 id="6-其他用法"><a href="#6-其他用法" class="headerlink" title="6 其他用法"></a>6 其他用法</h2><p>参考来源：<a target="_blank" rel="noopener" href="https://docs.qameta.io/allure/#_pytest">Allure Framework (qameta.io)</a></p>
+<h3 id="6-1-Allure和Pytest的联合使用"><a href="#6-1-Allure和Pytest的联合使用" class="headerlink" title="6.1 Allure和Pytest的联合使用"></a>6.1 Allure和Pytest的联合使用</h3><p>1、xfail</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@pytest.mark.xfail(<span class="params">condition=<span class="keyword">lambda</span>: <span class="literal">True</span>, reason=<span class="string">&#x27;this test is expecting failure&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_xfail_expected_failure</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;this test is an xfail that will be marked as expected failure&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>2、笔记待补充</p>
+<h1 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h1><h2 id="1、无法找到模块"><a href="#1、无法找到模块" class="headerlink" title="1、无法找到模块"></a>1、无法找到模块</h2><p>错误信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E   ModuleNotFoundError: No module named &#x27;requests_project&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hi3254014978/p/15202910.html">ModuleNotFoundError: No module named ‘xxx’可能的解决方案大全</a></p>
+<p>我的requests_project 没有 <code>__init__.py</code></p>
+<h2 id="2、Allure迷惑（待解决）"><a href="#2、Allure迷惑（待解决）" class="headerlink" title="2、Allure迷惑（待解决）"></a>2、Allure迷惑（待解决）</h2><p>在安装Allure使用方法一、方法二时，会出现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">allure : 无法将“allure”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确，   </span><br><span class="line">然后再试一次。</span><br><span class="line">所在位置 行:1 字符: 1</span><br><span class="line">+ ~~~~~~</span><br><span class="line">    + CategoryInfo          : ObjectNotFound: (allure:String) [], CommandNotFoundException</span><br><span class="line">    + FullyQualifiedErrorId : CommandNotFoundException</span><br></pre></td></tr></table></figure>
+
+<p>暂时没找到原因，及解决办法。</p>
+<p>直接下载安装包（安装方法三）可以生成测试报告</p>
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2022/04/13/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/"
+                    data-tooltip="性能测试知识点整理"
+                    aria-label="下一篇: 性能测试知识点整理"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2022 Abilish. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2022/04/13/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/"
+                    data-tooltip="性能测试知识点整理"
+                    aria-label="下一篇: 性能测试知识点整理"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://example.com/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                        aria-label="分享到 Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Abilish</h4>
+        
+            <div id="about-card-bio"><p>Less is More.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p><a href="mailto:&#x73;&#102;&#121;&#95;&#109;&#120;&#x40;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#109;">&#x73;&#102;&#121;&#95;&#109;&#120;&#x40;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#109;</a></p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                China, Heilongjiang
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-u4gocod02ukvjjitb63sjkl6iu1qjp8lpnsrzttfhzhhifp6ao9kpwvy9cik.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>
