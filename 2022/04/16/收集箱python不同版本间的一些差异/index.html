@@ -6,25 +6,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Do">
-    <title>Page Objects笔记 - Do</title>
+    <title>收集箱python不同版本间的一些差异 - Do</title>
     <meta name="author" content="Abilish">
     
     
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n六大原则\nThe public methods represent the services that the page offers公共方法表示页面提供的服务\nTry not to expose the internals of the page不要暴露页面的细节\nGenerally don’t make assertionsPage设计中不要出现断言，应该写在测试用例类中\nMethods return other PageObjects方法应该返回其他的Page对象\nNeed not represent an entire page不要去代表整个page，如果一个页面中有很多功能，只需要对重点功能封装方法即可\nDifferent results for the same action are modeled as different methods不同的结果返回不同的方法，不同的模式\n","dateCreated":"2022-03-23T06:33:01+08:00","dateModified":"2022-03-23T16:02:02+08:00","datePublished":"2022-03-23T06:33:01+08:00","description":"Page Object 笔记","headline":"Page Objects笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"}</script>
-    <meta name="description" content="Page Object 笔记">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n1 time clock()方法及替代方法python 3.8开始将移除 clock() 方法，使用 time.perf_counter() 或 time.process_time() 方法替代。\n1.1 time.clock()因为我没有安装3.7版本的python，所以使用了在线工具试了一下 clock() 方法\n在线工具网站（提供不同版本的代码测试）：python在线编程\n\ntime.clock()函数以浮点数计算的秒数返回当前的CPU时间，用来衡量耗时。\n\nUNIX系统：返回“进程时间”，用秒表示的浮点数\nWIN系统：第一次调用返回进程运行的实际时间，第二次调用\n","dateCreated":"2022-04-16T17:34:47+08:00","dateModified":"2022-04-16T22:16:35+08:00","datePublished":"2022-04-16T17:34:47+08:00","description":"今天在搭建环境的时候注意到了不同的python版本之间的一些差异，所以准备建立这个收集箱，把见过的以及常用的差异收集在这里。\n然后，有些好奇，迭代就是一步步的进化，那么python/其他为什么弃用了某些方法而选择了其他方法呢？\n想弄明白这些思路及细节","headline":"收集箱python不同版本间的一些差异","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"}</script>
+    <meta name="description" content="今天在搭建环境的时候注意到了不同的python版本之间的一些差异，所以准备建立这个收集箱，把见过的以及常用的差异收集在这里。 然后，有些好奇，迭代就是一步步的进化，那么python&#x2F;其他为什么弃用了某些方法而选择了其他方法呢？ 想弄明白这些思路及细节">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Page Objects笔记">
-<meta property="og:url" content="http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="收集箱python不同版本间的一些差异">
+<meta property="og:url" content="http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/index.html">
 <meta property="og:site_name" content="Do">
-<meta property="og:description" content="Page Object 笔记">
+<meta property="og:description" content="今天在搭建环境的时候注意到了不同的python版本之间的一些差异，所以准备建立这个收集箱，把见过的以及常用的差异收集在这里。 然后，有些好奇，迭代就是一步步的进化，那么python&#x2F;其他为什么弃用了某些方法而选择了其他方法呢？ 想弄明白这些思路及细节">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-03-22T22:33:01.000Z">
-<meta property="article:modified_time" content="2022-03-23T08:02:02.242Z">
+<meta property="og:image" content="https://s2.loli.net/2022/04/16/DbLjqPkWd4vmHgT.png">
+<meta property="article:published_time" content="2022-04-16T09:34:47.000Z">
+<meta property="article:modified_time" content="2022-04-16T14:16:35.420Z">
 <meta property="article:author" content="Abilish">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/04/16/DbLjqPkWd4vmHgT.png">
     
     
         
@@ -250,14 +252,14 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Page Objects笔记
+            收集箱python不同版本间的一些差异
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2022-03-23T06:33:01+08:00">
+    <time datetime="2022-04-16T17:34:47+08:00">
 	
-		    3月 23, 2022
+		    4月 16, 2022
     	
     </time>
     
@@ -271,15 +273,16 @@
         <div class="main-content-wrap">
             <!-- excerpt -->
 
-<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99"><span class="toc-text">六大原则</span></a></li></ol>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-time-clock-%E6%96%B9%E6%B3%95%E5%8F%8A%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%B3%95"><span class="toc-text">1 time clock()方法及替代方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-time-clock"><span class="toc-text">1.1 time.clock()</span></a></li></ol></li></ol>
 
-<h1 id="六大原则"><a href="#六大原则" class="headerlink" title="六大原则"></a>六大原则</h1><ul>
-<li>The public methods represent the services that the page offers<br>公共方法表示页面提供的服务</li>
-<li>Try not to expose the internals of the page<br>不要暴露页面的细节</li>
-<li>Generally don’t make assertions<br>Page设计中不要出现断言，应该写在测试用例类中</li>
-<li>Methods return other PageObjects<br>方法应该返回其他的Page对象</li>
-<li>Need not represent an entire page<br>不要去代表整个page，如果一个页面中有很多功能，只需要对重点功能封装方法即可</li>
-<li>Different results for the same action are modeled as different methods<br>不同的结果返回不同的方法，不同的模式</li>
+<h1 id="1-time-clock-方法及替代方法"><a href="#1-time-clock-方法及替代方法" class="headerlink" title="1 time clock()方法及替代方法"></a>1 time clock()方法及替代方法</h1><p><strong>python 3.8</strong>开始将移除 clock() 方法，使用 time.perf_counter() 或 time.process_time() 方法替代。</p>
+<h2 id="1-1-time-clock"><a href="#1-1-time-clock" class="headerlink" title="1.1 time.clock()"></a>1.1 time.clock()</h2><p>因为我没有安装3.7版本的python，所以使用了在线工具试了一下 clock() 方法</p>
+<p>在线工具网站（提供不同版本的代码测试）：<a target="_blank" rel="noopener" href="https://www.dooccn.com/python/">python在线编程</a></p>
+<p><img src="https://s2.loli.net/2022/04/16/DbLjqPkWd4vmHgT.png" alt="clock.png"></p>
+<p><code>time.clock()</code>函数以浮点数计算的<strong>秒数</strong>返回当前的<strong>CPU时间</strong>，用来衡量耗时。</p>
+<ul>
+<li>UNIX系统：返回“进程时间”，用秒表示的浮点数</li>
+<li>WIN系统：第一次调用返回进程运行的实际时间，第二次调用</li>
 </ul>
             
 
@@ -294,14 +297,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/24/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-                    data-tooltip="python装饰器学习笔记"
-                    aria-label="上一篇: python装饰器学习笔记"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                     </a>
@@ -311,9 +311,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/22/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/"
-                    data-tooltip="Selenium知识笔记"
-                    aria-label="下一篇: Selenium知识笔记"
+                    href="/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    data-tooltip="专项测试学习笔记"
+                    aria-label="下一篇: 专项测试学习笔记"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -338,7 +338,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -351,7 +351,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -364,7 +364,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -409,14 +409,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/24/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-                    data-tooltip="python装饰器学习笔记"
-                    aria-label="上一篇: python装饰器学习笔记"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                     </a>
@@ -426,9 +423,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/22/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/"
-                    data-tooltip="Selenium知识笔记"
-                    aria-label="下一篇: Selenium知识笔记"
+                    href="/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    data-tooltip="专项测试学习笔记"
+                    aria-label="下一篇: 专项测试学习笔记"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -453,7 +450,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -466,7 +463,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -479,7 +476,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -513,7 +510,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -526,7 +523,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                        href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -539,7 +536,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                        href="https://plus.google.com/share?url=http://example.com/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>

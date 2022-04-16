@@ -6,23 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Do">
-    <title>Page Objects笔记 - Do</title>
+    <title>专项测试学习笔记 - Do</title>
     <meta name="author" content="Abilish">
     
     
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n六大原则\nThe public methods represent the services that the page offers公共方法表示页面提供的服务\nTry not to expose the internals of the page不要暴露页面的细节\nGenerally don’t make assertionsPage设计中不要出现断言，应该写在测试用例类中\nMethods return other PageObjects方法应该返回其他的Page对象\nNeed not represent an entire page不要去代表整个page，如果一个页面中有很多功能，只需要对重点功能封装方法即可\nDifferent results for the same action are modeled as different methods不同的结果返回不同的方法，不同的模式\n","dateCreated":"2022-03-23T06:33:01+08:00","dateModified":"2022-03-23T16:02:02+08:00","datePublished":"2022-03-23T06:33:01+08:00","description":"Page Object 笔记","headline":"Page Objects笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"}</script>
-    <meta name="description" content="Page Object 笔记">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n\n\n\n\n1 APP专项测试概述结构图：\n假装这里有个思维导图.jpg\n1.1 什么是专项测试？目的是什么？专项测试是针对某个特殊方面或问题的测试工作。\n其他测试方法（功能、UI、接口、性能）无法测试到的，但又能影响产品质量的一些因素，将其归类为专项测试。\n例如：使用不同的机型，软件是否兼容（兼容性）；在不同的网络环境下软件的使用情况（弱网）……\n目的：保障产品质量的重要途径之一。","dateCreated":"2022-04-16T10:10:03+08:00","dateModified":"2022-04-16T17:23:18+08:00","datePublished":"2022-04-16T10:10:03+08:00","description":"简介：关于专项测试的学习笔记，简单整理一下，常学常更新，加油(ง •_•)ง。\n对于学习这件事，向来是由浅入深，由易到难，也许就是因为看到了珠穆朗玛峰，才知道自己的知识量不过只是地上的一个小土包。想告诉自己的是如果有一天觉得自己什么都会，那么实际上往往是什么都不会。\n要谦虚、要努力，刚把爹(●’◡’●)！","headline":"专项测试学习笔记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"}</script>
+    <meta name="description" content="简介：关于专项测试的学习笔记，简单整理一下，常学常更新，加油(ง •_•)ง。 对于学习这件事，向来是由浅入深，由易到难，也许就是因为看到了珠穆朗玛峰，才知道自己的知识量不过只是地上的一个小土包。想告诉自己的是如果有一天觉得自己什么都会，那么实际上往往是什么都不会。 要谦虚、要努力，刚把爹(●’◡’●)！">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Page Objects笔记">
-<meta property="og:url" content="http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="专项测试学习笔记">
+<meta property="og:url" content="http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Do">
-<meta property="og:description" content="Page Object 笔记">
+<meta property="og:description" content="简介：关于专项测试的学习笔记，简单整理一下，常学常更新，加油(ง •_•)ง。 对于学习这件事，向来是由浅入深，由易到难，也许就是因为看到了珠穆朗玛峰，才知道自己的知识量不过只是地上的一个小土包。想告诉自己的是如果有一天觉得自己什么都会，那么实际上往往是什么都不会。 要谦虚、要努力，刚把爹(●’◡’●)！">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-03-22T22:33:01.000Z">
-<meta property="article:modified_time" content="2022-03-23T08:02:02.242Z">
+<meta property="article:published_time" content="2022-04-16T02:10:03.000Z">
+<meta property="article:modified_time" content="2022-04-16T09:23:18.683Z">
 <meta property="article:author" content="Abilish">
 <meta name="twitter:card" content="summary">
     
@@ -250,14 +250,14 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Page Objects笔记
+            专项测试学习笔记
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2022-03-23T06:33:01+08:00">
+    <time datetime="2022-04-16T10:10:03+08:00">
 	
-		    3月 23, 2022
+		    4月 16, 2022
     	
     </time>
     
@@ -271,16 +271,18 @@
         <div class="main-content-wrap">
             <!-- excerpt -->
 
-<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99"><span class="toc-text">六大原则</span></a></li></ol>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-APP%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E6%A6%82%E8%BF%B0"><span class="toc-text">1 APP专项测试概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%EF%BC%9F%E7%9B%AE%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">1.1 什么是专项测试？目的是什么？</span></a></li></ol></li></ol>
 
-<h1 id="六大原则"><a href="#六大原则" class="headerlink" title="六大原则"></a>六大原则</h1><ul>
-<li>The public methods represent the services that the page offers<br>公共方法表示页面提供的服务</li>
-<li>Try not to expose the internals of the page<br>不要暴露页面的细节</li>
-<li>Generally don’t make assertions<br>Page设计中不要出现断言，应该写在测试用例类中</li>
-<li>Methods return other PageObjects<br>方法应该返回其他的Page对象</li>
-<li>Need not represent an entire page<br>不要去代表整个page，如果一个页面中有很多功能，只需要对重点功能封装方法即可</li>
-<li>Different results for the same action are modeled as different methods<br>不同的结果返回不同的方法，不同的模式</li>
-</ul>
+
+
+
+
+<h1 id="1-APP专项测试概述"><a href="#1-APP专项测试概述" class="headerlink" title="1 APP专项测试概述"></a>1 APP专项测试概述</h1><p><strong>结构图</strong>：</p>
+<p>假装这里有个思维导图.jpg</p>
+<h2 id="1-1-什么是专项测试？目的是什么？"><a href="#1-1-什么是专项测试？目的是什么？" class="headerlink" title="1.1 什么是专项测试？目的是什么？"></a><strong>1.1 什么是专项测试？目的是什么？</strong></h2><p>专项测试是针对某个特殊方面或问题的测试工作。</p>
+<p>其他测试方法（功能、UI、接口、性能）无法测试到的，但又能<strong>影响产品质量的一些因素</strong>，将其归类为专项测试。</p>
+<p><strong>例如</strong>：使用不同的机型，软件是否兼容（兼容性）；在不同的网络环境下软件的使用情况（弱网）……</p>
+<p><strong>目的</strong>：保障产品质量的重要途径之一。</p>
             
 
 
@@ -297,9 +299,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/24/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-                    data-tooltip="python装饰器学习笔记"
-                    aria-label="上一篇: python装饰器学习笔记"
+                    href="/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
+                    data-tooltip="收集箱python不同版本间的一些差异"
+                    aria-label="上一篇: 收集箱python不同版本间的一些差异"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -311,9 +313,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/22/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/"
-                    data-tooltip="Selenium知识笔记"
-                    aria-label="下一篇: Selenium知识笔记"
+                    href="/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    data-tooltip="Allure学习笔记"
+                    aria-label="下一篇: Allure学习笔记"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -338,7 +340,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -351,7 +353,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -364,7 +366,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -412,9 +414,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/24/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-                    data-tooltip="python装饰器学习笔记"
-                    aria-label="上一篇: python装饰器学习笔记"
+                    href="/2022/04/16/%E6%94%B6%E9%9B%86%E7%AE%B1python%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E9%97%B4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/"
+                    data-tooltip="收集箱python不同版本间的一些差异"
+                    aria-label="上一篇: 收集箱python不同版本间的一些差异"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -426,9 +428,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/03/22/Selenium%E5%A4%9A%E4%B8%AAiframe%E5%A4%84%E7%90%86/"
-                    data-tooltip="Selenium知识笔记"
-                    aria-label="下一篇: Selenium知识笔记"
+                    href="/2022/04/14/Allure%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    data-tooltip="Allure学习笔记"
+                    aria-label="下一篇: Allure学习笔记"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -453,7 +455,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -466,7 +468,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -479,7 +481,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                    target="new" href="https://plus.google.com/share?url=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -513,7 +515,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -526,7 +528,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                        href="https://twitter.com/intent/tweet?text=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -539,7 +541,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://example.com/2022/03/23/Page-Objects%E7%AC%94%E8%AE%B0/"
+                        href="https://plus.google.com/share?url=http://example.com/2022/04/16/%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
