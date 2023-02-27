@@ -13,14 +13,16 @@
         <link rel="icon" href="http://example.com/assets/images/avatar.png">
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"","dateCreated":"2022-05-26T23:20:42+08:00","dateModified":"2022-05-26T23:20:27+08:00","datePublished":"2022-05-26T23:20:42+08:00","description":"","headline":"六月文章预定","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/05/26/Django%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/05/26/Django%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"}</script>
-    <meta property="og:type" content="blog">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"数据库迁移的步骤：\n\n编辑 models.py 文件，改变模型。\n运行 python manage.py makemigrations 为模型的改变生成迁移文件。\n运行 python manage.py migrate 来应用数据库迁移。\n\n","dateCreated":"2022-05-26T23:20:42+08:00","dateModified":"2023-02-07T22:24:50+08:00","datePublished":"2022-05-26T23:20:42+08:00","description":"","headline":"六月文章预定","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2022/05/26/Django%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2022/05/26/Django%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"}</script>
+    <meta name="description" content="数据库迁移的步骤：  编辑 models.py 文件，改变模型。 运行 python manage.py makemigrations 为模型的改变生成迁移文件。 运行 python manage.py migrate 来应用数据库迁移。">
+<meta property="og:type" content="blog">
 <meta property="og:title" content="六月文章预定">
 <meta property="og:url" content="http://example.com/2022/05/26/Django%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Do">
+<meta property="og:description" content="数据库迁移的步骤：  编辑 models.py 文件，改变模型。 运行 python manage.py makemigrations 为模型的改变生成迁移文件。 运行 python manage.py migrate 来应用数据库迁移。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-26T15:20:42.000Z">
-<meta property="article:modified_time" content="2022-05-26T15:20:27.181Z">
+<meta property="article:modified_time" content="2023-02-07T14:24:50.028Z">
 <meta property="article:author" content="Abilish">
 <meta name="twitter:card" content="summary">
     
@@ -267,7 +269,13 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            
+            <p>数据库迁移的步骤：</p>
+<ul>
+<li>编辑 <code>models.py</code> 文件，改变模型。</li>
+<li>运行 <a target="_blank" rel="noopener" href="https://docs.djangoproject.com/zh-hans/4.1/ref/django-admin/#django-admin-makemigrations"><code>python manage.py makemigrations</code></a> 为模型的改变生成迁移文件。</li>
+<li>运行 <a target="_blank" rel="noopener" href="https://docs.djangoproject.com/zh-hans/4.1/ref/django-admin/#django-admin-migrate"><code>python manage.py migrate</code></a> 来应用数据库迁移。</li>
+</ul>
+
             
 
 
@@ -284,9 +292,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/06/10/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-                    data-tooltip="Docker学习笔记"
-                    aria-label="上一篇: Docker学习笔记"
+                    href="/2023/01/09/%E8%BF%81%E7%A7%BB%E6%B5%8B%E8%AF%95-%E5%8D%A0%E4%BD%8D/"
+                    data-tooltip="迁移测试-占位"
+                    aria-label="上一篇: 迁移测试-占位"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -314,7 +322,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -364,7 +372,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -399,9 +407,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2022/06/10/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-                    data-tooltip="Docker学习笔记"
-                    aria-label="上一篇: Docker学习笔记"
+                    href="/2023/01/09/%E8%BF%81%E7%A7%BB%E6%B5%8B%E8%AF%95-%E5%8D%A0%E4%BD%8D/"
+                    data-tooltip="迁移测试-占位"
+                    aria-label="上一篇: 迁移测试-占位"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -429,7 +437,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -479,7 +487,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -563,7 +571,7 @@
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p><a href="mailto:&#115;&#102;&#x79;&#95;&#x6d;&#120;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#109;">&#115;&#102;&#x79;&#95;&#x6d;&#120;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#109;</a></p>
+                <p><a href="mailto:&#x73;&#102;&#121;&#x5f;&#109;&#120;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#109;">&#x73;&#102;&#121;&#x5f;&#109;&#120;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#109;</a></p>
 
             </div>
         
