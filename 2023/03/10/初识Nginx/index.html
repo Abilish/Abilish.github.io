@@ -1,0 +1,657 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Do">
+    <title>初识Nginx - Do</title>
+    <meta name="author" content="Abilish">
+    
+    
+        <link rel="icon" href="http://example.com/assets/images/avatar.png">
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png"},"articleBody":"\n\n\n\n\n\n\n\n初识Nginx\n概念Nginx进行反向代理、负载均衡\nNginx (engine x) 是一个高性能的HTTP和反向代理web服务器，\nNginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好\nNginx代码完全用C语言从头写成。官方数据测试表明能够支持高达 50，000 个并发连接数的响应。\nhttps://zhuanlan.zhihu.com/p/364588916\n反向代理正向代理：代理客户端的就是正向代理\n反向代理：代理服务器端的就是反向代理。一个域名后可能不止一台服务器，但是用户无感知服务器中动态扩容了多少台服务器。\n负载均衡https://zhuanlan.zhihu.com/p/151835622\n\nNginx提供的负载均衡策略有2种：内置策略和扩展策略。内置策略为轮询，加权轮询，Ip hash。扩展轮询\n\n轮询：请求依次轮发到每一个服务器中\n加权轮询：按照不同服务器设置的权重的比例来处理请求\nIp hash：根据ip来进行计算，发送到固定的服务器中。为了解决用户的session存放在某个tomcat中，但是会被转发到其他服务器中处理请求的情况。实际使用Redis来处理，做session共享会更好。\n动静分离在软件开发中，有些请求是需要后台处理的，有些请求是不需要经过后台处理的（如：css、html、jpg、js等等文件），这些不需要经过后台处理的文件成为静态文件。让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们就可以根据静态资源的特点将其做缓存操作。提高资源响应的速度。\n\n安装windows上安装https://nginx.org/en/download.html\n下载后解压到中文目录中，conf 文件夹中存放配置文件。然后在命令行中启动 nginx.exe 文件。\n访问 localhost:80 出现 Nginx 欢迎页面即为启动成功。\nLinux上安装123456789101112131415161718192021222324252627282930# 查找是否有Nginx，如果有的话需要先卸载（卸载就是删除掉nginx）whereis nginx# 解压文件tar -zxvf nginx-1.22.1.tar.gzcd nginx-1.22.1# 配置./configure# 执行后make下(为什么make呢)makemake install# 这时时可以查到nginx的位置了whereis nginxcd /usr/local/nginxcd sbin/# 启动nginx，下面的命令执行成功后是无任何显示的./nginx# 配置文件conf的位置/usr/local/nginx/confcat nginx.conf# 在server中，可以看到listen的端口    server &#123;        listen       80;        server_name  localhost;\n\n\n\n如果从指定的端口无法访问，请检查以下几项：\n12345678910111213141516171819202122232425262728# 1. 查看nginx是否是启动状态systemctl status nginx  # 2. 查看防火墙开放的临时端口和永久端口，如果端口未开放需要开放端口，常用命令如下所示：# 查看防火墙状态systemctl status firewalld# 如果不是显示active状态，需要打开防火墙systemctl start firewalld# 查看所有已开放的临时端口（默认为空）firewall-cmd --list-ports# 查看所有永久开放的端口（默认为空）firewall-cmd --list-ports --permanent# 添加临时开放端口（例如：比如我修改ssh远程连接端口是223，则需要开放这个端口）firewall-cmd --add-port=223/tcp# 添加永久开放的端口（例如：223端口）firewall-cmd --add-port=223/tcp --permanent# 关闭临时端口firewall-cmd --remove-port=80/tcp# 关闭永久端口firewll-cmd --remove-port=80/tcp --permanent# 配置结束后需要输入重载命令并重启防火墙以生效配置firewall-cmd --reloadsystemctl restart firewalld# 3. 如果用的是云服务器，检查服务器端口是否开放了\n\n\n\n防火墙常用命令原文地址：https://www.cnblogs.com/ketoli/p/15111625.html\nNginx 常用命令123456789101112131415cd /usr/local/nginx/sbin/# 启动./nginx# 停止，强制停止./ nginx# 安全退出，会将所有的进程一个一个进行停止./nginx/ -s quit# 重新加载配置文件，常用，更改配置文件后就需要重新加载./nginx -s reload# 查看 nginx 进程ps aux|grep nginx\n\n\n\n\n\nNginx配置参数12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667全局配置，配置全局生效#user  nobody;worker_processes  1;#error_log  logs/error.log;#error_log  logs/error.log  notice;#error_log  logs/error.log  info;#pid        logs/nginx.pid;envents是最大连接数events &#123;    worker_connections  1024;&#125;http全局配置，静态资源文件配置http &#123;\t\t# upstream xx&#123;    #     负载均衡配置\t# &#125;\t\tupstream abilish&#123;        server 127.0.0.1:8080 weight=1;        server 127.0.0.1:8081 weight=1;\t&#125;\t    include       mime.types;    default_type  application/octet-stream;    #log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;    #                  &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;    #                  &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;    #access_log  logs/access.log  main;    sendfile        on;    #tcp_nopush     on;    #keepalive_timeout  0;    keepalive_timeout  65;    #gzip  on;server中配置不同的服务    server &#123;        listen       80;        server_name  localhost;        这里可以配置代理        #charset koi8-r;        #access_log  logs/host.access.log  main;        location / &#123;            root   html;            index  index.html index.htm;        &#125;        #error_page  404              /404.html;        # redirect server error pages to the static page /50x.html        #        error_page   500 502 503 504  /50x.html;        location = /50x.html &#123;            root   html;        &#125;......","dateCreated":"2023-03-10T22:03:01+08:00","dateModified":"2023-03-10T22:58:08+08:00","datePublished":"2023-03-10T22:03:01+08:00","description":"当我把手伸向天空，我以为我抓住了整片天空，实际上连飘渺的空气都未曾在我手中停留半步。\n当知道的越多，就越能看到自己的无知和渺小。\n\n弱小和无知不是生存的障碍，傲慢才是。\n​                                ——《三体》\n\n","headline":"初识Nginx","image":["bg.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"},"publisher":{"@type":"Organization","name":"Abilish","sameAs":["https://github.com/abilish","http://stackoverflow.com/users"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/","keywords":"已完成, Nginx","thumbnailUrl":"bg.jpg"}</script>
+    <meta name="description" content="当我把手伸向天空，我以为我抓住了整片天空，实际上连飘渺的空气都未曾在我手中停留半步。 当知道的越多，就越能看到自己的无知和渺小。  弱小和无知不是生存的障碍，傲慢才是。 ​                                ——《三体》">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="初识Nginx">
+<meta property="og:url" content="http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/index.html">
+<meta property="og:site_name" content="Do">
+<meta property="og:description" content="当我把手伸向天空，我以为我抓住了整片天空，实际上连飘渺的空气都未曾在我手中停留半步。 当知道的越多，就越能看到自己的无知和渺小。  弱小和无知不是生存的障碍，傲慢才是。 ​                                ——《三体》">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2023/03/10/XGu41Ucy2gSeF6r.png">
+<meta property="og:image" content="http://example.com/2023/%E5%B7%B2%E5%AE%8C%E6%88%90%E6%96%87%E7%AB%A0/%E5%88%9D%E8%AF%86Nginx.assets/1677912711483.png">
+<meta property="article:published_time" content="2023-03-10T14:03:01.000Z">
+<meta property="article:modified_time" content="2023-03-10T14:58:08.298Z">
+<meta property="article:author" content="Abilish">
+<meta property="article:tag" content="已完成">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2023/03/10/XGu41Ucy2gSeF6r.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://example.com/assets/images/avatar.png"/>
+    
+    
+        <meta property="og:image" content="http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/bg.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/bg.jpg"/>
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-dnipa5uemzhoi9vvrnmqb2ijfofk2ioy6agrjzdgxdcme4ri2nzo71ht0dut.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Do
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Abilish</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Less is More.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link open-algolia-search"
+                            href="#search"
+                            
+                            rel="noopener"
+                            title="搜索"
+                        >
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/abilish"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="http://stackoverflow.com/users"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Stack Overflow"
+                        >
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            初识Nginx
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2023-03-10T22:03:01+08:00">
+	
+		    3月 10, 2023
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a>, <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0/Nginx/">Nginx</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E8%AF%86Nginx"><span class="toc-text">初识Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-text">反向代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB"><span class="toc-text">动静分离</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#windows%E4%B8%8A%E5%AE%89%E8%A3%85"><span class="toc-text">windows上安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E4%B8%8A%E5%AE%89%E8%A3%85"><span class="toc-text">Linux上安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">Nginx 常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0"><span class="toc-text">Nginx配置参数</span></a></li></ol></li></ol>
+
+
+
+
+
+<h1 id="初识Nginx"><a href="#初识Nginx" class="headerlink" title="初识Nginx"></a>初识Nginx</h1><p><img src="https://s2.loli.net/2023/03/10/XGu41Ucy2gSeF6r.png" alt="dogsmail.png"></p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Nginx进行反向代理、负载均衡</p>
+<p><em>Nginx</em> (engine x) 是一个高性能的<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/HTTP">HTTP</a>和<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/%25E5%258F%258D%25E5%2590%2591%25E4%25BB%25A3%25E7%2590%2586/7793488">反向代理</a>web服务器，</p>
+<p>Nginx是一款<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/%25E8%25BD%25BB%25E9%2587%258F%25E7%25BA%25A7/10002835">轻量级</a>的<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/Web/150564">Web</a> 服务器/<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/%25E5%258F%258D%25E5%2590%2591%25E4%25BB%25A3%25E7%2590%2586/7793488">反向代理</a>服务器及<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/%25E7%2594%25B5%25E5%25AD%2590%25E9%2582%25AE%25E4%25BB%25B6/111106">电子邮件</a>（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/%25E5%25B9%25B6%25E5%258F%2591/11024806">并发</a>能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好</p>
+<p>Nginx代码完全用C语言从头写成。官方数据测试表明能够支持高达 50，000 个并发连接数的响应。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/364588916">https://zhuanlan.zhihu.com/p/364588916</a></p>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p><strong>正向代理</strong>：代理<strong>客户端</strong>的就是正向代理</p>
+<p><strong>反向代理</strong>：代理<strong>服务器端</strong>的就是反向代理。一个域名后可能不止一台服务器，但是用户无感知服务器中动态扩容了多少台服务器。</p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/151835622">https://zhuanlan.zhihu.com/p/151835622</a></p>
+<blockquote>
+<p>Nginx提供的负载均衡策略有2种：内置策略和扩展策略。内置策略为轮询，加权轮询，Ip hash。扩展轮询</p>
+</blockquote>
+<p>轮询：请求依次轮发到每一个服务器中</p>
+<p>加权轮询：按照不同服务器设置的权重的比例来处理请求</p>
+<p>Ip hash：根据ip来进行计算，发送到固定的服务器中。为了解决用户的session存放在某个tomcat中，但是会被转发到其他服务器中处理请求的情况。实际使用Redis来处理，做session共享会更好。</p>
+<h3 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h3><p>在软件开发中，有些请求是需要后台处理的，有些请求是不需要经过后台处理的（如：css、html、jpg、js等等文件），这些不需要经过后台处理的文件成为静态文件。让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们就可以根据静态资源的特点将其做缓存操作。提高资源响应的速度。</p>
+<p><img src="../../../%E5%B7%B2%E5%AE%8C%E6%88%90%E6%96%87%E7%AB%A0/%E5%88%9D%E8%AF%86Nginx.assets/1677912711483.png" alt="1677912711483"></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="windows上安装"><a href="#windows上安装" class="headerlink" title="windows上安装"></a><strong>windows上安装</strong></h3><p><a target="_blank" rel="noopener" href="https://nginx.org/en/download.html">https://nginx.org/en/download.html</a></p>
+<p>下载后解压到中文目录中，conf 文件夹中存放配置文件。然后在命令行中启动 nginx.exe 文件。</p>
+<p>访问 <code>localhost:80</code> 出现 Nginx 欢迎页面即为启动成功。</p>
+<h3 id="Linux上安装"><a href="#Linux上安装" class="headerlink" title="Linux上安装"></a><strong>Linux上安装</strong></h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># </span><span class="language-bash">查找是否有Nginx，如果有的话需要先卸载（卸载就是删除掉nginx）</span></span><br><span class="line">whereis nginx</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">解压文件</span></span><br><span class="line">tar -zxvf nginx-1.22.1.tar.gz</span><br><span class="line">cd nginx-1.22.1</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">配置</span></span><br><span class="line">./configure</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">执行后make下(为什么make呢)</span></span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">这时时可以查到nginx的位置了</span></span><br><span class="line">whereis nginx</span><br><span class="line">cd /usr/local/nginx</span><br><span class="line">cd sbin/</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">启动nginx，下面的命令执行成功后是无任何显示的</span></span><br><span class="line">./nginx</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">配置文件conf的位置</span></span><br><span class="line">/usr/local/nginx/conf</span><br><span class="line">cat nginx.conf</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">在server中，可以看到listen的端口</span></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果从指定的端口无法访问，请检查以下几项：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># </span><span class="language-bash">1. 查看nginx是否是启动状态</span></span><br><span class="line"></span><br><span class="line">systemctl status nginx  </span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">2. 查看防火墙开放的临时端口和永久端口，如果端口未开放需要开放端口，常用命令如下所示：</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">查看防火墙状态</span></span><br><span class="line">systemctl status firewalld</span><br><span class="line"><span class="meta"># </span><span class="language-bash">如果不是显示active状态，需要打开防火墙</span></span><br><span class="line">systemctl start firewalld</span><br><span class="line"><span class="meta"># </span><span class="language-bash">查看所有已开放的临时端口（默认为空）</span></span><br><span class="line">firewall-cmd --list-ports</span><br><span class="line"><span class="meta"># </span><span class="language-bash">查看所有永久开放的端口（默认为空）</span></span><br><span class="line">firewall-cmd --list-ports --permanent</span><br><span class="line"><span class="meta"># </span><span class="language-bash">添加临时开放端口（例如：比如我修改ssh远程连接端口是223，则需要开放这个端口）</span></span><br><span class="line">firewall-cmd --add-port=223/tcp</span><br><span class="line"><span class="meta"># </span><span class="language-bash">添加永久开放的端口（例如：223端口）</span></span><br><span class="line">firewall-cmd --add-port=223/tcp --permanent</span><br><span class="line"><span class="meta"># </span><span class="language-bash">关闭临时端口</span></span><br><span class="line">firewall-cmd --remove-port=80/tcp</span><br><span class="line"><span class="meta"># </span><span class="language-bash">关闭永久端口</span></span><br><span class="line">firewll-cmd --remove-port=80/tcp --permanent</span><br><span class="line"><span class="meta"># </span><span class="language-bash">配置结束后需要输入重载命令并重启防火墙以生效配置</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line">systemctl restart firewalld</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">3. 如果用的是云服务器，检查服务器端口是否开放了</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>防火墙常用命令原文地址：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ketoli/p/15111625.html">https://www.cnblogs.com/ketoli/p/15111625.html</a></p>
+<h2 id="Nginx-常用命令"><a href="#Nginx-常用命令" class="headerlink" title="Nginx 常用命令"></a>Nginx 常用命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/nginx/sbin/</span><br><span class="line"><span class="meta"># </span><span class="language-bash">启动</span></span><br><span class="line">./nginx</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">停止，强制停止</span></span><br><span class="line">./ nginx</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">安全退出，会将所有的进程一个一个进行停止</span></span><br><span class="line">./nginx/ -s quit</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">重新加载配置文件，常用，更改配置文件后就需要重新加载</span></span><br><span class="line">./nginx -s reload</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"># </span><span class="language-bash">查看 nginx 进程</span></span><br><span class="line">ps aux|grep nginx</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Nginx配置参数"><a href="#Nginx配置参数" class="headerlink" title="Nginx配置参数"></a>Nginx配置参数</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">全局配置，配置全局生效</span><br><span class="line"><span class="meta">#</span><span class="language-bash">user  nobody;</span></span><br><span class="line">worker_processes  1;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="language-bash">error_log  logs/error.log;</span></span><br><span class="line"><span class="meta">#</span><span class="language-bash">error_log  logs/error.log  notice;</span></span><br><span class="line"><span class="meta">#</span><span class="language-bash">error_log  logs/error.log  info;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="language-bash">pid        logs/nginx.pid;</span></span><br><span class="line"></span><br><span class="line">envents是最大连接数</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http全局配置，静态资源文件配置</span><br><span class="line">http &#123;</span><br><span class="line"><span class="meta">	</span></span><br><span class="line"><span class="meta">	# </span><span class="language-bash">upstream xx&#123;</span></span><br><span class="line">    #     负载均衡配置</span><br><span class="line"><span class="meta">	# </span><span class="language-bash">&#125;</span></span><br><span class="line">	</span><br><span class="line">	upstream abilish&#123;</span><br><span class="line">        server 127.0.0.1:8080 weight=1;</span><br><span class="line">        server 127.0.0.1:8081 weight=1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    #log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">    #                  &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">    #                  &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line">server中配置不同的服务</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        这里可以配置代理</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Nginx/" rel="tag">Nginx</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%B7%B2%E5%AE%8C%E6%88%90/" rel="tag">已完成</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2023/03/07/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    data-tooltip="Docker学习笔记"
+                    aria-label="下一篇: Docker学习笔记"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2023 Abilish. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2023/03/07/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    data-tooltip="Docker学习笔记"
+                    aria-label="下一篇: Docker学习笔记"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="目录">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://example.com/2023/03/10/%E5%88%9D%E8%AF%86Nginx/"
+                        aria-label="分享到 Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Abilish</h4>
+        
+            <div id="about-card-bio"><p>Less is More.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p><a href="mailto:&#115;&#102;&#121;&#x5f;&#109;&#x78;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#115;&#102;&#121;&#x5f;&#109;&#x78;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                China, Heilongjiang
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/bg.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-u4gocod02ukvjjitb63sjkl6iu1qjp8lpnsrzttfhzhhifp6ao9kpwvy9cik.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>
